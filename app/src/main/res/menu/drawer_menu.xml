@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/nav_home"
-        android:title="Inicio" />
-    <item android:id="@+id/nav_orders"
-        android:title="Pedidos" />
-    <item android:id="@+id/nav_settings"
-        android:title="Configuración" />
+    <item android:id="@+id/nav_menu"
+        android:title="@string/lbl_nav_menu" />
+    <item android:id="@+id/nav_pedidos"
+        android:title="@string/lbl_nav_pedidos" />
+    <item android:id="@+id/nav_reservas"
+        android:title="@string/lbl_nav_reservas" />
+    <item android:id="@+id/nav_cuenta"
+        android:title="@string/lbl_nav_cuenta_1" />
 </menu>

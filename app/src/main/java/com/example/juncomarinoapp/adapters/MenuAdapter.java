@@ -1,4 +1,4 @@
-package com.example.juncomarinoapp.objetos.adapters;
+package com.example.juncomarinoapp.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.juncomarinoapp.R;
-import com.example.juncomarinoapp.objetos.dto.Platillo;
+import com.example.juncomarinoapp.modelo.dto.Platillo;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,6 +20,10 @@ public class MenuAdapter extends BaseAdapter {
 
     public MenuAdapter(Context context, ArrayList<Platillo> menuItems) {
         this.context = context;
+        this.menuItems = menuItems;
+    }
+
+    public void setLista(ArrayList<Platillo> menuItems){
         this.menuItems = menuItems;
     }
 
@@ -51,8 +55,7 @@ public class MenuAdapter extends BaseAdapter {
         TextView descriptionView = convertView.findViewById(R.id.item_description);
         TextView priceView = convertView.findViewById(R.id.item_price);
 
-        String imageUrl = "http://192.168.1.37:4000/imagenPlatillo/"+ item.getImageResId();
-
+        String imageUrl = "http://192.168.1.37:4000/imagenPlatillo/"+ item.getIdPlatillo();
 
         Picasso.get().load(imageUrl).into(imageView);
 

@@ -3,111 +3,65 @@ package com.example.juncomarinoapp;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.juncomarinoapp.objetos.adapters.MenuAdapter;
-import com.example.juncomarinoapp.objetos.dto.Platillo;
+import com.example.juncomarinoapp.adapters.MenuAdapter;
 import com.google.android.material.navigation.NavigationView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+public class MainActivity2 extends AppCompatActivity {
 
-import java.util.ArrayList;
-
-public class MainActivity2 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    private DrawerLayout drawerLayout;
-    private ArrayList<Platillo> platillos;
+    private DrawerLayout drawerLayout1;
+    private NavigationView nv1;
+    private Toolbar tb1;
     private MenuAdapter adapter;
     private ListView lvMenu;
-    private RequestQueue rq;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main2);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawerlayout1), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        drawerLayout = findViewById(R.id.main);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        drawerLayout1 = findViewById(R.id.drawerlayout1);
+        nv1 = findViewById(R.id.nav_view);
+        tb1 = findViewById(R.id.toolbar1);
+        setSupportActionBar(tb1);
+        ActionBarDrawerToggle actionBarDrawerToggle1 = new ActionBarDrawerToggle(this, drawerLayout1, tb1, 0, 0);
+        drawerLayout1.addDrawerListener(actionBarDrawerToggle1);
+        actionBarDrawerToggle1.syncState();
+        getSupportFragmentManager().beginTransaction().add(R.id.frame1, new MostrarMenu()).commit();
 
-        lvMenu = findViewById(R.id.lvMenu);
-        platillos = new ArrayList<>();
-        adapter = new MenuAdapter(this, platillos);
-        lvMenu.setAdapter(adapter);
-
-        String url = "http://192.168.1.37:4000/listarPlatillos";
-        rq = Volley.newRequestQueue(this);
-
-        JsonObjectRequest requerimiento = new JsonObjectRequest(
-                Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray datos = response.getJSONArray("productos");
-
-                            for (int i = 0; i < datos.length(); i++) {
-                                JSONObject plato = datos.getJSONObject(i);
-                                String nombre = plato.getString("nombre");
-                                String descripcion = plato.getString("descripcion");
-                                String precio = plato.getString("precio");
-                                Platillo p = new Platillo(nombre, descripcion, precio, 1);
-
-                                platillos.add(p);
-                            }
-
-                            adapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity2.this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
+        nv1.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if(item.getItemId() == R.id.nav_menu){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new MostrarMenu()).commit();
                 }
-        );
-        rq.add(requerimiento);
+                else if(item.getItemId() == R.id.nav_pedidos){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new GestionarPedidos()).commit();
+                }
+                else{
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new MostrarMenu()).commit();
+                }
+                drawerLayout1.closeDrawers();
+                return true;
+            }
+        });
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.nav_home){
-
-        }else if (item.getItemId() == R.id.nav_orders){
-
-        }else if (item.getItemId() == R.id.nav_settings){
-
-        }else{
-
-        }
-        drawerLayout.closeDrawers();
-        return true;
-    }
 }
