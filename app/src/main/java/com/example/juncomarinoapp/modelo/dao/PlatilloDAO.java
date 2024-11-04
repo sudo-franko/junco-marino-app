@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.juncomarinoapp.interfaces.ConstantesApp;
 import com.example.juncomarinoapp.modelo.dto.CategoriaPlatillo;
 import com.example.juncomarinoapp.modelo.dto.Platillo;
 
@@ -31,7 +32,7 @@ public class PlatilloDAO {
 
     public void listarCategorias(final CategoriasListener listener){
         ArrayList<CategoriaPlatillo> categorias = new ArrayList<>();
-        String url = "http://192.168.1.37:4000/listarCategorias";
+        String url = ConstantesApp.URL_GENERAL+"listarCategorias";
         JsonObjectRequest solicitud = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -67,7 +68,7 @@ public class PlatilloDAO {
 
     public void listarPlatillos(final PlatillosListener listener){
         ArrayList<Platillo> platillos = new ArrayList<>();
-        String url = "http://192.168.1.37:4000/listarPlatillos";
+        String url = ConstantesApp.URL_GENERAL+"listarPlatillos";
         JsonObjectRequest solicitud = new JsonObjectRequest(
                 Request.Method.GET,
                 url,

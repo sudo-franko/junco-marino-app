@@ -20,6 +20,7 @@ import com.example.juncomarinoapp.adapters.CategoriaAdapter;
 import com.example.juncomarinoapp.adapters.MenuAdapter;
 import com.example.juncomarinoapp.modelo.dao.PlatilloDAO;
 import com.example.juncomarinoapp.modelo.dto.CategoriaPlatillo;
+import com.example.juncomarinoapp.modelo.dto.DetallePedido;
 import com.example.juncomarinoapp.modelo.dto.Platillo;
 
 import java.util.ArrayList;

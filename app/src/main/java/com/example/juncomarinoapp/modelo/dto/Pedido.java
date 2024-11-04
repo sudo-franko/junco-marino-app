@@ -5,6 +5,9 @@ import java.util.ArrayList;
 public class Pedido {
     private int idPedido;
     private int idCliente;
+    private String nombreCliente;
+    private String telefonoCliente;
+    private String direccionCliente;
     private String notas;
     private String tipoEntrega;
     private String tipoPago;
@@ -32,6 +35,30 @@ public class Pedido {
 
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public String getTelefonoCliente() {
+        return telefonoCliente;
+    }
+
+    public void setTelefonoCliente(String telefonoCliente) {
+        this.telefonoCliente = telefonoCliente;
+    }
+
+    public String getDireccionCliente() {
+        return direccionCliente;
+    }
+
+    public void setDireccionCliente(String direccionCliente) {
+        this.direccionCliente = direccionCliente;
     }
 
     public String getNotas() {

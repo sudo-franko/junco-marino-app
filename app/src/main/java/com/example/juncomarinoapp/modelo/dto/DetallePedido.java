@@ -4,6 +4,7 @@ public class DetallePedido {
     private int idDetalle;
     private int idPedido;
     private int idPlatillo;
+    private String nombrePlatillo;
     private int cantidad;
     private double subtotal;
 
@@ -32,6 +33,14 @@ public class DetallePedido {
 
     public void setIdPlatillo(int idPlatillo) {
         this.idPlatillo = idPlatillo;
+    }
+
+    public String getNombrePlatillo() {
+        return nombrePlatillo;
+    }
+
+    public void setNombrePlatillo(String nombrePlatillo) {
+        this.nombrePlatillo = nombrePlatillo;
     }
 
     public int getCantidad() {
