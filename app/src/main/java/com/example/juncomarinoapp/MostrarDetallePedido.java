@@ -9,13 +9,21 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.juncomarinoapp.adapters.DetallePedidoAdapter;
 import com.example.juncomarinoapp.modelo.dto.DetallePedido;
 
 import java.util.ArrayList;
 
 public class MostrarDetallePedido extends Fragment {
+
+    private ListView lvPedidos;
+    private TextView tvMontoTotal;
+    private DetallePedidoAdapter adapter;
+    private ArrayList<DetallePedido> listaPedidos;
 
     public MostrarDetallePedido() {
         // Required empty public constructor
@@ -31,9 +39,21 @@ public class MostrarDetallePedido extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        enlazarControles(view);
         if (getActivity() instanceof MainActivity2) {
-            ArrayList<DetallePedido> pedidos = ((MainActivity2) getActivity()).getPedidos();
-            Toast.makeText(getContext(), "Obtenidos los datos...", Toast.LENGTH_LONG).show();
+            listaPedidos = ((MainActivity2) getActivity()).getPedidos();
+            adapter = new DetallePedidoAdapter(getContext(), listaPedidos);
+            lvPedidos.setAdapter(adapter);
+            double montoTotal = 0;
+            for(DetallePedido dp: listaPedidos){
+                montoTotal += dp.getSubtotal();
+            }
+            tvMontoTotal.setText("Monto total: S/. " + montoTotal);
         }
+    }
+
+    private void enlazarControles(View view){
+        lvPedidos = view.findViewById(R.id.lvPedidos);
+        tvMontoTotal = view.findViewById(R.id.tvMontoTotal);
     }
 }
