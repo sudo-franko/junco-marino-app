@@ -5,11 +5,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -58,7 +60,7 @@ public class MostrarMenu extends Fragment {
                 ArrayList<Platillo> listaDefecto = new ArrayList<>();
                 for(Platillo p: menuItems){
                     if(p.getIdCategoria() == 1){
-                        platillos.add(p);
+                        listaDefecto.add(p);
                     }
                 }
                 adapter.setLista(listaDefecto);
@@ -96,6 +98,22 @@ public class MostrarMenu extends Fragment {
                 }else{
                     Toast.makeText(view.getContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        lvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Platillo platilloSeleccionado = (Platillo) parent.getItemAtPosition(position);
+                VerDetallePlatillo fragment = new VerDetallePlatillo();
+                Bundle b = new Bundle();
+                b.putSerializable("PLATILLO", platilloSeleccionado);
+                fragment.setArguments(b);
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame1, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
     }

@@ -7,4 +7,11 @@
     <string name="lbl_nav_reservas">Reserva de mesas</string>
     <string name="lbl_nav_cuenta_1">Crear cuenta</string>
     <string name="lbl_nav_cuenta_2">Ver cuenta</string>
+
+    <style name="CustomDatePicker" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorAccent">@color/mesaColor</item>
+        <item name="android:textColorPrimary">@color/mesaColor</item>
+        <item name="android:textColor">@color/mesaColor</item>
+        <item name="android:datePickerDialogTheme">@style/CustomDatePicker</item>
+    </style>
 </resources>

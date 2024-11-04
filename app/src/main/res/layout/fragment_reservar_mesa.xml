@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/linearLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Selecciona una fecha:"
+        android:textSize="16sp" />
+
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/CustomDatePicker"/>
+
+    <!--MESAS DISPONIBLES-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="Mesas Disponibles:"
+        android:textSize="16sp" />
+
+    <!-- MOSTRAR LAS MESAS DISPONIBLS-->
+    <GridLayout
+        android:id="@+id/gridLayoutMesas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alignmentMode="alignMargins"
+        android:columnCount="3"
+        android:rowCount="2"
+        android:useDefaultMargins="true">
+
+
+        <Button
+            android:id="@+id/mesa1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/mesaColor"
+            android:text="Mesa 1"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/mesa2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/mesaColor"
+            android:text="Mesa 2"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/mesa3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/mesaColor"
+            android:text="Mesa 3"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/mesa4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/mesaColor"
+            android:text="Mesa 4"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/mesa5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/mesaColor"
+            android:text="Mesa 5"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/mesa6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/mesaColor"
+            android:text="Mesa 6"
+            android:textColor="@android:color/white" />
+    </GridLayout>
+
+    <!--BOTON PARA RESERVAR LA MESA -->
+    <Button
+        android:id="@+id/btnReservar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/mesaColor"
+        android:text="Reservar Mesa"
+        android:textColor="@android:color/white" />
+</LinearLayout>

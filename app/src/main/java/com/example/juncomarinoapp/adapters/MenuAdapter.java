@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.juncomarinoapp.R;
+import com.example.juncomarinoapp.interfaces.ConstantesApp;
 import com.example.juncomarinoapp.modelo.dto.Platillo;
 import com.squareup.picasso.Picasso;
 
@@ -55,14 +56,13 @@ public class MenuAdapter extends BaseAdapter {
         TextView descriptionView = convertView.findViewById(R.id.item_description);
         TextView priceView = convertView.findViewById(R.id.item_price);
 
-        String imageUrl = "http://192.168.1.37:4000/imagenPlatillo/"+ item.getIdPlatillo();
+        String imageUrl = ConstantesApp.URL_GENERAL+"imagenPlatillo/"+ item.getIdPlatillo();
 
         Picasso.get().load(imageUrl).into(imageView);
 
-        //imageView.setImageResource(item.getImageResId());
-        nameView.setText(item.getName());
-        descriptionView.setText(item.getDescription());
-        priceView.setText("S/." + item.getPrice());
+        nameView.setText(item.getNombre());
+        descriptionView.setText(item.getDescripcion());
+        priceView.setText("S/." + item.getPrecio());
 
         return convertView;
     }
