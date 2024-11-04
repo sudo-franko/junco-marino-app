@@ -14,4 +14,14 @@
         <item name="android:textColor">@color/mesaColor</item>
         <item name="android:datePickerDialogTheme">@style/CustomDatePicker</item>
     </style>
+
+    <string-array name="tipos_entrega">
+        <item>Recojo en tienda</item>
+        <item>Entrega a domicilio</item>
+    </string-array>
+    <string-array name="tipos_pago">
+        <item>Pago en efectivo</item>
+        <item>Pago con tarjeta de credito</item>
+        <item>Pago con yape</item>
+    </string-array>
 </resources>

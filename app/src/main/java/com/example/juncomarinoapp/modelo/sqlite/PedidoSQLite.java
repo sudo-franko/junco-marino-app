@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.juncomarinoapp.interfaces.ConstantesApp;
+import com.example.juncomarinoapp.modelo.dto.DetallePedido;
 import com.example.juncomarinoapp.modelo.dto.Pedido;
 import com.example.juncomarinoapp.servicios.ConectaBDD;
 
@@ -13,8 +14,10 @@ import java.util.ArrayList;
 
 public class PedidoSQLite {
     private SQLiteDatabase bdd;
+    private Context context;
 
     public PedidoSQLite(Context context) {
+        this.context = context;
         bdd = new ConectaBDD(
                 context,
                 ConstantesApp.BDD,
@@ -42,6 +45,10 @@ public class PedidoSQLite {
         registro.put("comentario", p.getComentario());
         try {
             bdd.insertOrThrow(ConstantesApp.TABLA_PEDIDO, null, registro);
+            DetallePedidoSQLite dpSQL = new DetallePedidoSQLite(context);
+            for(DetallePedido dp: p.getDetalles()){
+                dpSQL.registrarDetalle(dp);
+            }
         } catch(Exception ex) {
             rpta = ex.getMessage().toString();
         }

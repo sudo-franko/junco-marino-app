@@ -23,7 +23,7 @@ public class UsuarioSQLite {
         ).getWritableDatabase();
     }
 
-    public String registrarUsuarioSQLite(Usuario u) {
+    public String registrarUsuario(Usuario u) {
         String rpta = "";
         ContentValues registro = new ContentValues();
         registro.put("idCliente", u.getIdCliente());
@@ -42,7 +42,7 @@ public class UsuarioSQLite {
         return rpta;
     }
 
-    public String actualizarUsuarioSQLite(Usuario u) {
+    public String actualizarUsuario(Usuario u) {
         String rpta = "";
         ContentValues registro = new ContentValues();
         registro.put("idCliente", u.getIdCliente());
@@ -64,19 +64,22 @@ public class UsuarioSQLite {
         return rpta;
     }
 
-    public Usuario obtenerUsuarioSQLite() {
+    public Usuario obtenerUsuario() {
         Usuario u = new Usuario();
         String cadSQL = "SELECT * FROM USUARIO";
         Cursor c = bdd.rawQuery(cadSQL, null);
-        u.setIdCliente(c.getInt(c.getColumnIndexOrThrow("idCliente")));
-        u.setNombres(c.getString(c.getColumnIndexOrThrow("nombres")));
-        u.setApellidos(c.getString(c.getColumnIndexOrThrow("apellidos")));
-        u.setCorreo(c.getString(c.getColumnIndexOrThrow("correo")));
-        u.setTelefono(c.getString(c.getColumnIndexOrThrow("telefono")));
-        u.setDireccion(c.getString(c.getColumnIndexOrThrow("direccion")));
-        u.setUsuario(c.getString(c.getColumnIndexOrThrow("usuario")));
-        u.setContrasena(c.getString(c.getColumnIndexOrThrow("contrasena")));
-        c.close();
-        return u;
+        if(c.moveToFirst()) {
+            u.setIdCliente(c.getInt(c.getColumnIndexOrThrow("idCliente")));
+            u.setNombres(c.getString(c.getColumnIndexOrThrow("nombres")));
+            u.setApellidos(c.getString(c.getColumnIndexOrThrow("apellidos")));
+            u.setCorreo(c.getString(c.getColumnIndexOrThrow("correo")));
+            u.setTelefono(c.getString(c.getColumnIndexOrThrow("telefono")));
+            u.setDireccion(c.getString(c.getColumnIndexOrThrow("direccion")));
+            u.setUsuario(c.getString(c.getColumnIndexOrThrow("usuario")));
+            u.setContrasena(c.getString(c.getColumnIndexOrThrow("contrasena")));
+            c.close();
+            return u;
+        }
+        return null;
     }
 }

@@ -27,7 +27,7 @@ public class PedidoDAO {
     }
 
     public void registrarPedidoSinCuenta(Pedido pedido, final RegistroListener listener) {
-        String url = ConstantesApp.URL_GENERAL + "registrarPedidoAnonimo"; // Asegúrate de que esta URL sea la correcta
+        String url = ConstantesApp.URL_GENERAL + "registrarPedidoAnonimo";
         JSONObject parametros = new JSONObject();
 
         try {
@@ -46,6 +46,7 @@ public class PedidoDAO {
                 // Asegúrate de que la clase DetallePedido tenga los métodos getters necesarios
                 detalleJson.put("idPlatillo", detalle.getIdPlatillo()); // Cambia esto según tus atributos
                 detalleJson.put("cantidad", detalle.getCantidad()); // Cambia esto según tus atributos
+                detalleJson.put("subtotal", detalle.getSubtotal());
                 detallePedidoJsonArray.put(detalleJson);
             }
             parametros.put("detallePedido", detallePedidoJsonArray);
@@ -66,8 +67,9 @@ public class PedidoDAO {
                         try {
                             String status = response.getString("status");
                             if (status.equals("success")) {
-                                String idPedido = response.getString("idPedido");
-                                listener.onRegistroExitoso("Pedido registrado con ID: " + idPedido);
+                                int idPedido = response.getInt("idPedido");
+                                pedido.setIdPedido(idPedido);
+                                listener.onRegistroExitoso("Pedido registrado con ID: " + idPedido, pedido);
                             } else {
                                 String error = response.optString("error", "Error desconocido");
                                 listener.onRegistroFallido("Error: " + error);
@@ -89,7 +91,7 @@ public class PedidoDAO {
     }
 
     public interface RegistroListener {
-        void onRegistroExitoso(String mensaje);
+        void onRegistroExitoso(String mensaje, Pedido p);
         void onRegistroFallido(String error);
     }
 }

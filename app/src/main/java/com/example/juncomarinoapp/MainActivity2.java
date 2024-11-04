@@ -19,6 +19,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.example.juncomarinoapp.adapters.MenuAdapter;
 import com.example.juncomarinoapp.modelo.dto.DetallePedido;
@@ -47,39 +48,24 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_button) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame1, new MostrarDetallePedido())
-                    .addToBackStack(null)
-                    .commit();
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame1);
+            if (!(currentFragment instanceof MostrarDetallePedido)) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame1, new MostrarDetallePedido())
+                        .addToBackStack(null)
+                        .commit();
+            }
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);/*
-        MenuItem menuItem = menu.findItem(R.id.action_button);
-        menuItem.setActionView(R.layout.menu_icono_compras);
-        RelativeLayout actionView = (RelativeLayout) menuItem.getActionView();
-        ImageView iconShoppingBag = actionView.findViewById(R.id.icon_shopping_bag);
-        TextView badgeCounter = actionView.findViewById(R.id.badge_counter);
-        updateBadgeCounter(badgeCounter, 0);
-        actionView.setOnClickListener(v -> onOptionsItemSelected(menuItem));*/
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
     }
-/*
-    private void updateBadgeCounter(TextView badgeCounter, int count) {
-        if (count > 0) {
-            badgeCounter.setText(String.valueOf(count));
-            badgeCounter.setVisibility(View.VISIBLE);
-        } else {
-            badgeCounter.setVisibility(View.GONE);
-        }
-    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

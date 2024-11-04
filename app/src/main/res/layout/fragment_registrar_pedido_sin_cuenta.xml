@@ -9,65 +9,64 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GUARDAR CUENTA"
+        android:text="DATOS DEL PEDIDO"
         android:textSize="24sp"
         android:textColor="#004A9F"
         android:gravity="center"
         android:layout_gravity="center_horizontal"/>
 
-    <EditText
-        android:id="@+id/etNombre"
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:hint="Nombres"
+        android:entries="@array/tipos_entrega"
+        android:id="@+id/spTipoEntrega"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:entries="@array/tipos_pago"
+        android:id="@+id/spTipoPago"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DATOS DEL CLIENTE"
+        android:textSize="24sp"
+        android:textColor="#004A9F"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/etNombresCliente"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="Nombres del cliente"
         android:inputType="textPersonName"
         android:layout_marginTop="16dp"/>
 
     <EditText
-        android:id="@+id/etApellido"
+        android:id="@+id/etTelefono"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:hint="Apellidos"
-        android:inputType="textPersonName"
-        android:layout_marginTop="16dp"/>
-
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:hint="Correo electrónico"
-        android:inputType="textEmailAddress"
+        android:hint="Telefono de comunicacion"
+        android:inputType="phone"
         android:layout_marginTop="8dp"/>
 
     <EditText
         android:id="@+id/etDireccion"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:hint="Dirección por defecto"
+        android:hint="Dirección de entrega"
         android:inputType="text"
-        android:layout_marginTop="8dp"/>
-
-    <EditText
-        android:id="@+id/etUsuario"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:hint="Nombre de usuario"
-        android:inputType="text"
-        android:layout_marginTop="8dp"/>
-
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        android:enabled="false"/>
 
     <Button
-        android:id="@+id/btnGuardarCuenta"
+        android:id="@+id/btnRealizarPedido"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar cuenta"
+        android:text="Realizar pedido"
         android:layout_marginTop="16dp"
         android:backgroundTint="#004A9F"
         android:textColor="#ffffff"/>

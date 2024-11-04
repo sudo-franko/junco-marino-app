@@ -24,7 +24,7 @@
         android:layout_marginStart="36dp"
         android:layout_marginBottom="23dp"
         android:text="Agregar una nota: "
-        app:layout_constraintBottom_toTopOf="@+id/nota"
+        app:layout_constraintBottom_toTopOf="@+id/txtNota"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvMontoTotal" />
 
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/lvPedidos" />
 
     <EditText
-        android:id="@+id/nota"
+        android:id="@+id/txtNota"
         android:layout_width="306dp"
         android:layout_height="73dp"
         android:layout_marginStart="36dp"
@@ -51,32 +51,32 @@
         android:layout_marginBottom="27dp"
         android:background="@drawable/edit_text_border"
         android:ems="10"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@+id/btnContinuarPedido"
         app:layout_constraintEnd_toEndOf="@+id/tvMontoTotal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btnContinuarPedido"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="16dp"
         android:text="CONTINUAR CON EL PEDIDO"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
-        app:layout_constraintEnd_toEndOf="@+id/nota"
-        app:layout_constraintTop_toBottomOf="@+id/nota" />
+        app:layout_constraintBottom_toTopOf="@+id/btnEliminarPedido"
+        app:layout_constraintEnd_toEndOf="@+id/txtNota"
+        app:layout_constraintTop_toBottomOf="@+id/txtNota" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnEliminarPedido"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="33dp"
         android:layout_marginBottom="65dp"
         android:text="ELIMINAR PEDIDO"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/button4"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
+        app:layout_constraintStart_toStartOf="@+id/btnContinuarPedido"
+        app:layout_constraintTop_toBottomOf="@+id/btnContinuarPedido" />
 
     <TextView
         android:id="@+id/textView3"

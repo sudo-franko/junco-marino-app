@@ -98,15 +98,19 @@ public class VerDetallePlatillo extends Fragment {
                     double precioPlatillo = Double.parseDouble(platillo.getPrecio());
                     double subtotal = cantidad * precioPlatillo;
                     if(!actualizar){
-                        DetallePedido dp = new DetallePedido();
-                        dp.setIdPlatillo(idPlatillo);
-                        dp.setNombrePlatillo(nombrePlatillo);
-                        dp.setCantidad(cantidad);
-                        dp.setSubtotal(subtotal);
+                        if(cantidad != 0) {
+                            DetallePedido dp = new DetallePedido();
+                            dp.setIdPlatillo(idPlatillo);
+                            dp.setNombrePlatillo(nombrePlatillo);
+                            dp.setCantidad(cantidad);
+                            dp.setSubtotal(subtotal);
 
-                        if (getActivity() instanceof MainActivity2) {
-                            ArrayList<DetallePedido> pedidos = ((MainActivity2) getActivity()).getPedidos();
-                            pedidos.add(dp);
+                            if (getActivity() instanceof MainActivity2) {
+                                ArrayList<DetallePedido> pedidos = ((MainActivity2) getActivity()).getPedidos();
+                                pedidos.add(dp);
+                            }
+                        }else{
+                            Toast.makeText(getContext(), "Seleccione una cantidad", Toast.LENGTH_LONG).show();
                         }
                     }else{
                         if (getActivity() instanceof MainActivity2) {
@@ -115,6 +119,7 @@ public class VerDetallePlatillo extends Fragment {
                             pedidos.get(indice).setSubtotal(subtotal);
                         }
                     }
+                    Toast.makeText(getContext(), "Añadido con éxito", Toast.LENGTH_LONG).show();
                 }
             });
         }

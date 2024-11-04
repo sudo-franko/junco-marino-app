@@ -1,8 +1,9 @@
 package com.example.juncomarinoapp.modelo.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Pedido {
+public class Pedido implements Serializable {
     private int idPedido;
     private int idCliente;
     private String nombreCliente;

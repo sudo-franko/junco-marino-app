@@ -21,7 +21,7 @@ public interface ConstantesApp {
             "\tcontrasena VARCHAR(20) NOT NULL\n" +
             ");\n";
     String TABLA_PEDIDO_DDL = "CREATE TABLE PEDIDO (\n" +
-            "\tidPedido INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+            "\tidPedido INTEGER PRIMARY KEY,\n" +
             "\tidCliente INTEGER NULL,\n" +
             "\tnombreCliente VARCHAR(100) NULL,\n" +
             "\ttelefonoCliente VARCHAR(15) NULL,\n" +
