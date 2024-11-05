@@ -54,7 +54,11 @@ public class SolicitarCuenta extends Fragment {
         btnCrearCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                GuardarCuenta fragmento = GuardarCuenta.newInstance(pedido, true);
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.frame1, fragmento)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
