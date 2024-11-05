@@ -88,11 +88,21 @@ public class GuardarCuenta extends Fragment {
                         @Override
                         public void onRegistroExitoso(String mensaje, Usuario usuario) {
                             UsuarioSQLite uSQL = new UsuarioSQLite(getContext());
-                            uSQL.registrarUsuario(usuario);
-                            if(enMedioPedido){
-
-                            }else{
-
+                            String rpta = uSQL.registrarUsuario(usuario);
+                            if(rpta != ""){
+                                Toast.makeText(getContext(), rpta, Toast.LENGTH_LONG).show();
+                            }else {
+                                if (enMedioPedido) {
+                                    RegistrarPedidoConCuenta fragmento = RegistrarPedidoConCuenta.newInstance(pedido, true);
+                                    getParentFragmentManager().beginTransaction()
+                                            .replace(R.id.frame1, fragmento)
+                                            .addToBackStack(null)
+                                            .commit();
+                                } else {
+                                    getParentFragmentManager().beginTransaction()
+                                            .replace(R.id.frame1, new VerCuenta())
+                                            .commit();
+                                }
                             }
                         }
 
@@ -114,5 +124,6 @@ public class GuardarCuenta extends Fragment {
         etDireccion = view.findViewById(R.id.etDireccion);
         etUsuario = view.findViewById(R.id.etUsuario);
         etContrasena = view.findViewById(R.id.etContrasena);
+        btnGuardarCuenta = view.findViewById(R.id.btnGuardarCuenta);
     }
 }

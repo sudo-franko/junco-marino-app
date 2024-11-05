@@ -23,6 +23,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.juncomarinoapp.adapters.MenuAdapter;
 import com.example.juncomarinoapp.modelo.dto.DetallePedido;
+import com.example.juncomarinoapp.modelo.dto.Usuario;
+import com.example.juncomarinoapp.modelo.sqlite.UsuarioSQLite;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class MainActivity2 extends AppCompatActivity {
     private MenuAdapter adapter;
     private ListView lvMenu;
     private ArrayList<DetallePedido> pedidosRealizados = new ArrayList<>();
+    private Usuario usuario = null;
 
     public ArrayList<DetallePedido> getPedidos(){
         return pedidosRealizados;
@@ -43,6 +46,10 @@ public class MainActivity2 extends AppCompatActivity {
     public void setPedidos(ArrayList<DetallePedido> pedidos){
         pedidosRealizados.clear();
         pedidosRealizados.addAll(pedidos);
+    }
+
+    public Usuario getUsuario(){
+        return usuario;
     }
 
     @Override
@@ -87,6 +94,12 @@ public class MainActivity2 extends AppCompatActivity {
         actionBarDrawerToggle1.syncState();
         getSupportFragmentManager().beginTransaction().add(R.id.frame1, new MostrarMenu()).commit();
 
+        UsuarioSQLite uSQL = new UsuarioSQLite(this);
+        Usuario u = uSQL.obtenerUsuario();
+        if(u != null){
+            usuario = u;
+        }
+
         nv1.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -97,7 +110,11 @@ public class MainActivity2 extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new GestionarPedidos()).commit();
                 }
                 else if(item.getItemId() == R.id.nav_cuenta){
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new GuardarCuenta()).commit();
+                    if(usuario == null) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new GuardarCuenta()).commit();
+                    }else{
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new VerCuenta()).commit();
+                    }
                 }
                 else{
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new MostrarMenu()).commit();

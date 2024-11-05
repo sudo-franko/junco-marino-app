@@ -113,7 +113,7 @@ public class PedidoSQLite {
         String cadSQL = "SELECT * FROM PEDIDO";
         Cursor c = bdd.rawQuery(cadSQL, null);
         if (c != null) {
-            if (c.moveToFirst()) {
+            if (c.moveToLast()) {
                 do {
                     Pedido p = new Pedido();
                     p.setIdPedido(c.getInt(c.getColumnIndexOrThrow("idPedido")));
@@ -130,7 +130,7 @@ public class PedidoSQLite {
                     p.setCalificacion(c.getString(c.getColumnIndexOrThrow("calificacion")));
                     p.setComentario(c.getString(c.getColumnIndexOrThrow("comentario")));
                     lista.add(p);
-                } while (c.moveToNext());
+                } while (c.moveToPrevious());
             }
             c.close();
         }

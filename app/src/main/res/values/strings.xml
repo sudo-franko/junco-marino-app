@@ -3,10 +3,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="lbl_nav_menu">Menu de platillos</string>
-    <string name="lbl_nav_pedidos">Pedidos</string>
+    <string name="lbl_nav_pedidos">Mis Pedidos</string>
     <string name="lbl_nav_reservas">Reserva de mesas</string>
-    <string name="lbl_nav_cuenta_1">Crear cuenta</string>
-    <string name="lbl_nav_cuenta_2">Ver cuenta</string>
+    <string name="lbl_nav_cuenta">Mi Cuenta</string>
 
     <style name="CustomDatePicker" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="colorAccent">@color/mesaColor</item>

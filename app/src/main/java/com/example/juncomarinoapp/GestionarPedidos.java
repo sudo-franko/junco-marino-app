@@ -41,7 +41,7 @@ public class GestionarPedidos extends Fragment {
         PedidoSQLite pSQL = new PedidoSQLite(getContext());
         ArrayList<Pedido> pedidos = pSQL.listarPedidos();
         for(Pedido p: pedidos){
-            dataList.add(p.getIdPedido()+" - "+p.getNombreCliente()+" (S/. "+p.getMonto()+")");
+            dataList.add("[ID: "+p.getIdPedido()+"] -> "+p.getNombreCliente()+" (S/. "+p.getMonto()+")");
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(

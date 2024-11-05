@@ -72,16 +72,21 @@ public class MostrarDetallePedido extends Fragment {
                     }
                     pedido.setMonto(montoTotal);
                     pedido.setDetalles(listaPedidos);
-                    UsuarioSQLite uSQL = new UsuarioSQLite(getContext());
-                    Usuario u = uSQL.obtenerUsuario();
-                    if(u == null){
-                        SolicitarCuenta fragmento = SolicitarCuenta.newInstance(pedido);
-                        getParentFragmentManager().beginTransaction()
-                                .replace(R.id.frame1, fragmento)
-                                .addToBackStack(null)
-                                .commit();
-                    }else{
-
+                    if (getActivity() instanceof MainActivity2) {
+                        Usuario u = ((MainActivity2) getActivity()).getUsuario();
+                        if(u == null){
+                            SolicitarCuenta fragmento = SolicitarCuenta.newInstance(pedido);
+                            getParentFragmentManager().beginTransaction()
+                                    .replace(R.id.frame1, fragmento)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }else{
+                            RegistrarPedidoConCuenta fragmento = RegistrarPedidoConCuenta.newInstance(pedido, false);
+                            getParentFragmentManager().beginTransaction()
+                                    .replace(R.id.frame1, fragmento)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
                     }
                 }else{
                     Toast.makeText(getContext(),
