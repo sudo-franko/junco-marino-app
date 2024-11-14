@@ -104,22 +104,27 @@ public class VerDetallePlatillo extends Fragment {
                             dp.setNombrePlatillo(nombrePlatillo);
                             dp.setCantidad(cantidad);
                             dp.setSubtotal(subtotal);
-
                             if (getActivity() instanceof MainActivity2) {
                                 ArrayList<DetallePedido> pedidos = ((MainActivity2) getActivity()).getPedidos();
                                 pedidos.add(dp);
                             }
+                            Toast.makeText(getContext(), "Añadido con éxito", Toast.LENGTH_LONG).show();
                         }else{
                             Toast.makeText(getContext(), "Seleccione una cantidad", Toast.LENGTH_LONG).show();
                         }
                     }else{
                         if (getActivity() instanceof MainActivity2) {
                             ArrayList<DetallePedido> pedidos = ((MainActivity2) getActivity()).getPedidos();
-                            pedidos.get(indice).setCantidad(cantidad);
-                            pedidos.get(indice).setSubtotal(subtotal);
+                            if(cantidad != 0) {
+                                pedidos.get(indice).setCantidad(cantidad);
+                                pedidos.get(indice).setSubtotal(subtotal);
+                                Toast.makeText(getContext(), "Actualizado con éxito", Toast.LENGTH_LONG).show();
+                            }else{
+                                pedidos.remove(indice);
+                                Toast.makeText(getContext(), "Removido con éxito", Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
-                    Toast.makeText(getContext(), "Añadido con éxito", Toast.LENGTH_LONG).show();
                 }
             });
         }

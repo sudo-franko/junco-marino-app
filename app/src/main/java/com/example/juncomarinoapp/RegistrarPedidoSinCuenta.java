@@ -18,9 +18,11 @@ import android.widget.Toast;
 
 import com.example.juncomarinoapp.modelo.dao.PedidoDAO;
 import com.example.juncomarinoapp.modelo.dto.Pedido;
+import com.example.juncomarinoapp.modelo.dto.Usuario;
 import com.example.juncomarinoapp.modelo.sqlite.PedidoSQLite;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class RegistrarPedidoSinCuenta extends Fragment {
@@ -114,6 +116,9 @@ public class RegistrarPedidoSinCuenta extends Fragment {
                                 String rpta = pSQL.registrarPedido(p);
                                 if(rpta!=""){
                                     Toast.makeText(getContext(), rpta, Toast.LENGTH_LONG).show();
+                                }
+                                if (getActivity() instanceof MainActivity2) {
+                                    ((MainActivity2) getActivity()).setPedidos(new ArrayList<>());
                                 }
                                 Fragment mostrarPedidoFinalizado = MostrarPedidoFinalizado.newInstance(p.getIdPedido());
                                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

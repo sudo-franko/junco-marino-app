@@ -34,8 +34,6 @@ public class MainActivity2 extends AppCompatActivity {
     private DrawerLayout drawerLayout1;
     private NavigationView nv1;
     private Toolbar tb1;
-    private MenuAdapter adapter;
-    private ListView lvMenu;
     private ArrayList<DetallePedido> pedidosRealizados = new ArrayList<>();
     private Usuario usuario = null;
 
@@ -44,8 +42,9 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     public void setPedidos(ArrayList<DetallePedido> pedidos){
-        pedidosRealizados.clear();
-        pedidosRealizados.addAll(pedidos);
+        //pedidosRealizados.clear();
+        //pedidosRealizados.addAll(pedidos);
+        this.pedidosRealizados = pedidos;
     }
 
     public Usuario getUsuario(){

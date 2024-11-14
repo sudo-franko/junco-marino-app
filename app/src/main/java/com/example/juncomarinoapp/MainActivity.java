@@ -18,11 +18,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView lvMenu;
-    private ArrayList<String> menuItems;
-    private ArrayAdapter<String> adapter;
-    private RequestQueue rq;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,52 +28,9 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-/*
-        lvMenu = findViewById(R.id.lvMenu);
-        menuItems = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, menuItems);
-        lvMenu.setAdapter(adapter);
-
-        String url = "http://192.168.1.37:4000/listarPlatillos";
-        rq = Volley.newRequestQueue(this);
-
-        JsonObjectRequest requerimiento = new JsonObjectRequest(
-                Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray platillos = response.getJSONArray("productos");
-
-                            for (int i = 0; i < platillos.length(); i++) {
-                                JSONObject plato = platillos.getJSONObject(i);
-                                String nombre = plato.getString("nombre");
-                                String descripcion = plato.getString("descripcion");
-                                String precio = plato.getString("precio");
-
-                                menuItems.add(nombre + " \n" + descripcion + " \nS/." + precio);
-                            }
-
-                            adapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-        rq.add(requerimiento);
-*/
     }
 
-    public void conectar(View view){
+    public void ingresar(View view){
         Intent i = new Intent(this, MainActivity2.class);
         startActivity(i);
     }
