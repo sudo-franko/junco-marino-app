@@ -72,10 +72,10 @@
             android:id="@+id/btnRealizarPedido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Realizar pedido"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#004A9F"
-            android:textColor="#ffffff"/>
+            android:backgroundTint="@color/blue"
+            android:text="Realizar pedido"
+            android:textColor="#ffffff" />
     </LinearLayout>
 
 </ScrollView>

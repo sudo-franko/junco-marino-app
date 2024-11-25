@@ -3,8 +3,11 @@ package com.example.juncomarinoapp.modelo.dto;
 public class ReservaMesa {
     private int idReserva;
     private int idCliente;
+    private String nomCliente;
     private int numPersonas;
+    private int numMesa;
     private String fecha;
+    private String estado;
 
     public ReservaMesa() {
     }
@@ -25,6 +28,14 @@ public class ReservaMesa {
         this.idCliente = idCliente;
     }
 
+    public String getNomCliente() {
+        return nomCliente;
+    }
+
+    public void setNomCliente(String nomCliente) {
+        this.nomCliente = nomCliente;
+    }
+
     public int getNumPersonas() {
         return numPersonas;
     }
@@ -33,11 +44,27 @@ public class ReservaMesa {
         this.numPersonas = numPersonas;
     }
 
+    public int getNumMesa() {
+        return numMesa;
+    }
+
+    public void setNumMesa(int numMesa) {
+        this.numMesa = numMesa;
+    }
+
     public String getFecha() {
         return fecha;
     }
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

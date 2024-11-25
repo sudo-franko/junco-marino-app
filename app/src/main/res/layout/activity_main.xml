@@ -12,15 +12,15 @@
         android:id="@+id/button"
         android:layout_width="235dp"
         android:layout_height="77dp"
+        android:backgroundTint="@color/blue"
         android:onClick="ingresar"
         android:text="INGRESAR"
+        android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.724"
-        android:background="@color/blue"
-        android:textSize="16dp"/>
+        app:layout_constraintVertical_bias="0.724" />
 
     <ImageView
         android:id="@+id/imageView"

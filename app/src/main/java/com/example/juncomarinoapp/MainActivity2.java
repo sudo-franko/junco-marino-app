@@ -3,12 +3,6 @@ package com.example.juncomarinoapp;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -21,7 +15,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import com.example.juncomarinoapp.adapters.MenuAdapter;
 import com.example.juncomarinoapp.modelo.dto.DetallePedido;
 import com.example.juncomarinoapp.modelo.dto.Usuario;
 import com.example.juncomarinoapp.modelo.sqlite.UsuarioSQLite;
@@ -42,8 +35,6 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     public void setPedidos(ArrayList<DetallePedido> pedidos){
-        //pedidosRealizados.clear();
-        //pedidosRealizados.addAll(pedidos);
         this.pedidosRealizados = pedidos;
     }
 
@@ -107,6 +98,13 @@ public class MainActivity2 extends AppCompatActivity {
                 }
                 else if(item.getItemId() == R.id.nav_pedidos){
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new GestionarPedidos()).commit();
+                }
+                else if(item.getItemId() == R.id.nav_reservas){
+                    if(usuario == null) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new GuardarCuenta()).commit();
+                    }else{
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new ReservarMesa()).commit();
+                    }
                 }
                 else if(item.getItemId() == R.id.nav_cuenta){
                     if(usuario == null) {

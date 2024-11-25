@@ -3,7 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="skyblue">#2196F3</color>
-    <color name="orange">#FF9800</color>
     <color name="blue">#004A9F</color>
+    <color name="orange">#FF9800</color>
+    <color name="yellow">#FFC107</color>
+    <color name="green">#4CAF50</color>
     <color name="mesaColor">#2FADE6</color>
 </resources>

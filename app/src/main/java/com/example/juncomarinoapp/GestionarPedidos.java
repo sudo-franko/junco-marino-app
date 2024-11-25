@@ -7,14 +7,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.juncomarinoapp.adapters.MenuAdapter;
+import com.example.juncomarinoapp.adapters.PedidoAdapter;
 import com.example.juncomarinoapp.modelo.dto.Pedido;
+import com.example.juncomarinoapp.modelo.dto.Platillo;
 import com.example.juncomarinoapp.modelo.sqlite.PedidoSQLite;
 
 import java.util.ArrayList;
@@ -49,20 +54,25 @@ public class GestionarPedidos extends Fragment {
         });
 
         lvPedidos = view.findViewById(R.id.lvPedidos);
-
-        ArrayList<String> dataList = new ArrayList<>();
         PedidoSQLite pSQL = new PedidoSQLite(getContext());
         ArrayList<Pedido> pedidos = pSQL.listarPedidos();
-        for(Pedido p: pedidos){
-            dataList.add("[ID: "+p.getIdPedido()+"] -> "+p.getNombreCliente()+" (S/. "+p.getMonto()+")");
-        }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                getActivity(),
-                android.R.layout.simple_list_item_1,
-                dataList
-        );
-
+        PedidoAdapter adapter = new PedidoAdapter(getContext(), pedidos);
         lvPedidos.setAdapter(adapter);
+        lvPedidos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
+                Pedido pedidoSeleccionado = (Pedido) parent.getItemAtPosition(position);
+                VerEstadoPedido fragment = new VerEstadoPedido();
+                Bundle b = new Bundle();
+                b.putSerializable("PEDIDO", pedidoSeleccionado);
+                fragment.setArguments(b);
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame1, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
     }
 }

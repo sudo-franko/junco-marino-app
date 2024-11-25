@@ -1,58 +1,35 @@
 package com.example.juncomarinoapp;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Button;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link VerEstadoPedido#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.juncomarinoapp.adapters.DetallePedidoAdapter;
+import com.example.juncomarinoapp.modelo.dto.Pedido;
+
 public class VerEstadoPedido extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private TextView tvNumeroPedido, tvEstadoPedido;
+    private Button btnGenerarQR;
+    private ListView lvDetallePedido;
+    private ProgressBar barraProgreso;
+    private Pedido pedido;
 
     public VerEstadoPedido() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment VerEstadoPedido.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static VerEstadoPedido newInstance(String param1, String param2) {
-        VerEstadoPedido fragment = new VerEstadoPedido();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -60,5 +37,75 @@ public class VerEstadoPedido extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_ver_estado_pedido, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        enlazarControles(view);
+        if (getArguments() != null) {
+            pedido = (Pedido) getArguments().getSerializable("PEDIDO");
+        }
+        if(pedido != null){
+            DetallePedidoAdapter adapter = new DetallePedidoAdapter(getContext(), pedido.getDetalles());
+            lvDetallePedido.setAdapter(adapter);
+            tvNumeroPedido.setText("PEDIDO #00" + pedido.getIdPedido());
+            switch(pedido.getEstado()){
+                case "Recibido":
+                    tvEstadoPedido.setText("Recibido");
+                    tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.yellow));
+                    barraProgreso.setProgress(10);
+                    barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.yellow)));
+                    break;
+                case "En preparacion":
+                    tvEstadoPedido.setText("En preparación");
+                    tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.orange));
+                    barraProgreso.setProgress(40);
+                    barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.orange)));
+                    break;
+                case "En camino":
+                    tvEstadoPedido.setText("En camino");
+                    tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                    barraProgreso.setProgress(80);
+                    barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.green)));
+                    break;
+                case "Listo para recoger":
+                    tvEstadoPedido.setText("Listo para recoger");
+                    tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                    barraProgreso.setProgress(90);
+                    barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.green)));
+                    break;
+                case "Entregado":
+                    tvEstadoPedido.setText("En preparación");
+                    tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                    barraProgreso.setProgress(100);
+                    barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.green)));
+                    break;
+                default:
+                    break;
+            }
+            btnGenerarQR.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    GenerarQrPedido fragment = new GenerarQrPedido();
+                    Bundle b = new Bundle();
+                    b.putInt("ID_PEDIDO", pedido.getIdPedido());
+                    fragment.setArguments(b);
+
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.frame1, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            });
+        }
+    }
+
+    private void enlazarControles(View view){
+        tvNumeroPedido = view.findViewById(R.id.tvNumeroPedido);
+        tvEstadoPedido = view.findViewById(R.id.tvEstadoPedido);
+        barraProgreso = view.findViewById(R.id.barraProgreso);
+        lvDetallePedido = view.findViewById(R.id.lvDetallePedido);
+        btnGenerarQR = view.findViewById(R.id.btnGenerarQR);
     }
 }
