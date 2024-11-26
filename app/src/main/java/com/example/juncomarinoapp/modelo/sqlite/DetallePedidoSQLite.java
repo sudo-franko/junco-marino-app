@@ -42,7 +42,7 @@ public class DetallePedidoSQLite {
 
     public ArrayList<DetallePedido> listarDetalles(int idPedido) {
         ArrayList<DetallePedido> lista = new ArrayList<>();
-        String cadSQL = "SELECT idDetalle, idPedido, idPlatillo, nombrePlatillo, cantidad, subtotal FROM DETALLE_PEDIDO WHERE idPedido = " + idPedido;
+        String cadSQL = "SELECT idDetalle, idPedido, idPlatillo, nombrePlatillo, cantidad, subtotal FROM DETALLE_PEDIDO WHERE idPedido = 8";
         Cursor c = bdd.rawQuery(cadSQL, null);
         if (c != null) {
             if (c.moveToFirst()) {

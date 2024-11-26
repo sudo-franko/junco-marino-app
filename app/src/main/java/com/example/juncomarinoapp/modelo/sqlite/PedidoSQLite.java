@@ -47,7 +47,7 @@ public class PedidoSQLite {
             bdd.insertOrThrow(ConstantesApp.TABLA_PEDIDO, null, registro);
             DetallePedidoSQLite dpSQL = new DetallePedidoSQLite(context);
             for(DetallePedido dp: p.getDetalles()){
-                dpSQL.registrarDetalle(dp);
+                rpta += dpSQL.registrarDetalle(dp);
             }
         } catch(Exception ex) {
             rpta = ex.getMessage().toString();

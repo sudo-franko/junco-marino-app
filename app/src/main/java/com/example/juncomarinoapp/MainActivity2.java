@@ -3,6 +3,7 @@ package com.example.juncomarinoapp;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -75,6 +76,8 @@ public class MainActivity2 extends AppCompatActivity {
             return insets;
         });
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
         drawerLayout1 = findViewById(R.id.drawerlayout1);
         nv1 = findViewById(R.id.nav_view);
         tb1 = findViewById(R.id.toolbar1);
@@ -103,7 +106,7 @@ public class MainActivity2 extends AppCompatActivity {
                     if(usuario == null) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new GuardarCuenta()).commit();
                     }else{
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new ReservarMesa()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new GestionarReservas()).commit();
                     }
                 }
                 else if(item.getItemId() == R.id.nav_cuenta){

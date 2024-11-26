@@ -109,7 +109,7 @@ public class ReservaMesaDAO {
                 null,
                 response -> {
                     try {
-                        List<ReservaMesa> reservas = new ArrayList<>();
+                        ArrayList<ReservaMesa> reservas = new ArrayList<>();
                         for (int i = 0; i < response.length(); i++) {
                             JSONObject obj = response.getJSONObject(i);
                             ReservaMesa reserva = new ReservaMesa();
@@ -141,7 +141,7 @@ public class ReservaMesaDAO {
                 null,
                 response -> {
                     try {
-                        List<ReservaMesa> reservas = new ArrayList<>();
+                        ArrayList<ReservaMesa> reservas = new ArrayList<>();
                         for (int i = 0; i < response.length(); i++) {
                             JSONObject obj = response.getJSONObject(i);
                             ReservaMesa reserva = new ReservaMesa();
@@ -175,7 +175,7 @@ public class ReservaMesaDAO {
     }
 
     public interface ListarListener {
-        void onListarExitoso(List<ReservaMesa> reservas);
+        void onListarExitoso(ArrayList<ReservaMesa> reservas);
         void onListarFallido(String error);
     }
 }

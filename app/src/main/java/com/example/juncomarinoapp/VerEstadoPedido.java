@@ -16,9 +16,14 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.juncomarinoapp.adapters.DetallePedidoAdapter;
+import com.example.juncomarinoapp.modelo.dto.DetallePedido;
 import com.example.juncomarinoapp.modelo.dto.Pedido;
+import com.example.juncomarinoapp.modelo.sqlite.DetallePedidoSQLite;
+
+import java.util.ArrayList;
 
 public class VerEstadoPedido extends Fragment {
 
@@ -47,12 +52,15 @@ public class VerEstadoPedido extends Fragment {
             pedido = (Pedido) getArguments().getSerializable("PEDIDO");
         }
         if(pedido != null){
-            DetallePedidoAdapter adapter = new DetallePedidoAdapter(getContext(), pedido.getDetalles());
+            DetallePedidoSQLite dpSQL = new DetallePedidoSQLite(getContext());
+            ArrayList<DetallePedido> detalles = dpSQL.listarDetalles(pedido.getIdPedido());
+            DetallePedidoAdapter adapter = new DetallePedidoAdapter(getContext(), detalles);
+            Toast.makeText(getContext(), "PEDIDO: " + detalles.get(0).getNombrePlatillo(), Toast.LENGTH_LONG).show();
             lvDetallePedido.setAdapter(adapter);
             tvNumeroPedido.setText("PEDIDO #00" + pedido.getIdPedido());
             switch(pedido.getEstado()){
-                case "Recibido":
-                    tvEstadoPedido.setText("Recibido");
+                case "Solicitado":
+                    tvEstadoPedido.setText("Solicitado");
                     tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.yellow));
                     barraProgreso.setProgress(10);
                     barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.yellow)));
