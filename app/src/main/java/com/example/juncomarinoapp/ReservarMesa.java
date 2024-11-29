@@ -2,57 +2,26 @@ package com.example.juncomarinoapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ReservarMesa#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Calendar;
+
 public class ReservarMesa extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private DatePicker datePicker;
+    private Button mesa1, mesa2, mesa3, mesa4, mesa5, mesa6, btnReservar;
 
     public ReservarMesa() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ReservarMesa.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ReservarMesa newInstance(String param1, String param2) {
-        ReservarMesa fragment = new ReservarMesa();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -60,5 +29,67 @@ public class ReservarMesa extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_reservar_mesa, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        enlazarControles(view);
+        configurarDatePicker();
+        capturarFechaSeleccionada();
+
+    }
+
+    private void enlazarControles(View view) {
+        datePicker = view.findViewById(R.id.datePicker);
+        mesa1 = view.findViewById(R.id.mesa1);
+        mesa2 = view.findViewById(R.id.mesa2);
+        mesa3 = view.findViewById(R.id.mesa3);
+        mesa4 = view.findViewById(R.id.mesa4);
+        mesa5 = view.findViewById(R.id.mesa5);
+        mesa6 = view.findViewById(R.id.mesa6);
+        btnReservar = view.findViewById(R.id.btnReservar);
+    }
+
+    private void configurarDatePicker() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        datePicker.setMinDate(calendar.getTimeInMillis());
+
+        datePicker.updateDate(year, month, day);
+    }
+
+    private void capturarFechaSeleccionada() {
+        datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                // Capturar la fecha seleccionada
+                String fechaSeleccionada = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                Toast.makeText(getContext(), "Fecha seleccionada: " + fechaSeleccionada, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void inhabilitarBotonesMesas() {
+        mesa1.setEnabled(false);
+        mesa2.setEnabled(false);
+        mesa3.setEnabled(false);
+        mesa4.setEnabled(false);
+        mesa5.setEnabled(false);
+        mesa6.setEnabled(false);
+    }
+
+    private void habilitarBotonesMesas() {
+        mesa1.setEnabled(true);
+        mesa2.setEnabled(true);
+        mesa3.setEnabled(true);
+        mesa4.setEnabled(true);
+        mesa5.setEnabled(true);
+        mesa6.setEnabled(true);
     }
 }

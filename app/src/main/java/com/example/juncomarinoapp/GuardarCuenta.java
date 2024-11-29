@@ -26,8 +26,6 @@ public class GuardarCuenta extends Fragment {
     private Button btnGuardarCuenta;
     private static final String ARG_PEDIDO = "pedido";
     private static final String ARG_MEDIO = "medioPedido";
-    private Pedido pedido;
-    private boolean enMedioPedido;
 
     public GuardarCuenta() {
         // Required empty public constructor
@@ -45,10 +43,6 @@ public class GuardarCuenta extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            pedido = (Pedido) getArguments().getSerializable(ARG_PEDIDO);
-            enMedioPedido = getArguments().getBoolean(ARG_MEDIO);
-        }
     }
 
     @Override
@@ -105,17 +99,7 @@ public class GuardarCuenta extends Fragment {
                             if(rpta != ""){
                                 Toast.makeText(getContext(), rpta, Toast.LENGTH_LONG).show();
                             }else {
-                                if (enMedioPedido) {
-                                    RegistrarPedidoConCuenta fragmento = RegistrarPedidoConCuenta.newInstance(pedido, true);
-                                    getParentFragmentManager().beginTransaction()
-                                            .replace(R.id.frame1, fragmento)
-                                            .addToBackStack(null)
-                                            .commit();
-                                } else {
-                                    getParentFragmentManager().beginTransaction()
-                                            .replace(R.id.frame1, new VerCuenta())
-                                            .commit();
-                                }
+                                getActivity().finish();
                             }
                         }
 

@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.juncomarinoapp.modelo.dao.PedidoDAO;
+import com.example.juncomarinoapp.modelo.dto.DetallePedido;
 import com.example.juncomarinoapp.modelo.dto.Pedido;
 import com.example.juncomarinoapp.modelo.dto.Usuario;
 import com.example.juncomarinoapp.modelo.sqlite.PedidoSQLite;
@@ -112,6 +113,9 @@ public class RegistrarPedidoSinCuenta extends Fragment {
                                 SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                                 Date fechaActual = new Date();
                                 p.setFecha(formato.format(fechaActual));
+                                for(DetallePedido dp: p.getDetalles()){
+                                    dp.setIdPedido(p.getIdPedido());
+                                }
                                 PedidoSQLite pSQL = new PedidoSQLite(getContext());
                                 String rpta = pSQL.registrarPedido(p);
                                 if(rpta!=""){

@@ -55,7 +55,7 @@ public class VerEstadoPedido extends Fragment {
             DetallePedidoSQLite dpSQL = new DetallePedidoSQLite(getContext());
             ArrayList<DetallePedido> detalles = dpSQL.listarDetalles(pedido.getIdPedido());
             DetallePedidoAdapter adapter = new DetallePedidoAdapter(getContext(), detalles);
-            Toast.makeText(getContext(), "PEDIDO: " + detalles.get(0).getNombrePlatillo(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "PEDIDO: " + detalles.size(), Toast.LENGTH_LONG).show();
             lvDetallePedido.setAdapter(adapter);
             tvNumeroPedido.setText("PEDIDO #00" + pedido.getIdPedido());
             switch(pedido.getEstado()){

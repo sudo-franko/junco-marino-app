@@ -9,7 +9,7 @@ public interface ConstantesApp {
     String TABLA_PEDIDO = "PEDIDO";
     String TABLA_DETALLE_PEDIDO = "DETALLE_PEDIDO";
     String BDD = "juncoMarino.db";
-    int VERSION = 1;
+    int VERSION = 4;
     String TABLA_USUARIO_DDL = "CREATE TABLE USUARIO (\n" +
             "\tidCliente INTEGER PRIMARY KEY,\n" +
             "\tnombres VARCHAR(100) NOT NULL,\n" +

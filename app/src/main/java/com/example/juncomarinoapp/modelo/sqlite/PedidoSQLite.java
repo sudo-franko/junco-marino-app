@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import com.example.juncomarinoapp.interfaces.ConstantesApp;
 import com.example.juncomarinoapp.modelo.dto.DetallePedido;
@@ -25,7 +26,6 @@ public class PedidoSQLite {
                 ConstantesApp.VERSION
         ).getWritableDatabase();
     }
-
 
     public String registrarPedido(Pedido p) {
         String rpta = "";

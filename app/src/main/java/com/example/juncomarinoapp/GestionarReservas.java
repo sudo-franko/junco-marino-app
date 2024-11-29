@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.juncomarinoapp.adapters.ReservaAdapter;
 import com.example.juncomarinoapp.modelo.dao.ReservaMesaDAO;
 import com.example.juncomarinoapp.modelo.dto.ReservaMesa;
+import com.example.juncomarinoapp.modelo.dto.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class GestionarReservas extends Fragment {
 
     private Button btnNuevaReserva;
     private ListView lvReservas;
+    private Usuario usuario;
 
     public GestionarReservas() {
         // Required empty public constructor
@@ -55,7 +57,10 @@ public class GestionarReservas extends Fragment {
 
         enlazarControles(view);
         ReservaMesaDAO rDAO = new ReservaMesaDAO(getContext());
-        rDAO.listarReservas(new ReservaMesaDAO.ListarListener() {
+        if (getActivity() instanceof MainActivity2) {
+            usuario = ((MainActivity2) getActivity()).getUsuario();
+        }
+        rDAO.listarReservasPorCliente(usuario.getIdCliente(), new ReservaMesaDAO.ListarListener() {
             @Override
             public void onListarExitoso(ArrayList<ReservaMesa> reservas) {
                 if(!reservas.isEmpty()){

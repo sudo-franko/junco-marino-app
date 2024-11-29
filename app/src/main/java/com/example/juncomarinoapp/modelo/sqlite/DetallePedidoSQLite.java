@@ -26,7 +26,6 @@ public class DetallePedidoSQLite {
     public String registrarDetalle(DetallePedido detalle) {
         String rpta = "";
         ContentValues registro = new ContentValues();
-        registro.put("idDetalle", detalle.getIdDetalle());
         registro.put("idPedido", detalle.getIdPedido());
         registro.put("idPlatillo", detalle.getIdPlatillo());
         registro.put("nombrePlatillo", detalle.getNombrePlatillo());
@@ -42,13 +41,12 @@ public class DetallePedidoSQLite {
 
     public ArrayList<DetallePedido> listarDetalles(int idPedido) {
         ArrayList<DetallePedido> lista = new ArrayList<>();
-        String cadSQL = "SELECT idDetalle, idPedido, idPlatillo, nombrePlatillo, cantidad, subtotal FROM DETALLE_PEDIDO WHERE idPedido = 8";
+        String cadSQL = "SELECT idPedido, idPlatillo, nombrePlatillo, cantidad, subtotal FROM DETALLE_PEDIDO WHERE idPedido = " + idPedido;
         Cursor c = bdd.rawQuery(cadSQL, null);
         if (c != null) {
             if (c.moveToFirst()) {
                 do {
                     DetallePedido detalle = new DetallePedido();
-                    detalle.setIdDetalle(c.getInt(c.getColumnIndexOrThrow("idDetalle")));
                     detalle.setIdPedido(c.getInt(c.getColumnIndexOrThrow("idPedido")));
                     detalle.setIdPlatillo(c.getInt(c.getColumnIndexOrThrow("idPlatillo")));
                     detalle.setNombrePlatillo(c.getString(c.getColumnIndexOrThrow("nombrePlatillo")));

@@ -8,7 +8,7 @@
     <string name="lbl_nav_cuenta">Mi Cuenta</string>
 
     <style name="CustomDatePicker" parent="Theme.MaterialComponents.Light.Dialog">
-        <item name="colorAccent">@color/mesaColor</item>
+        <item name="colorAccent">@color/blue</item>
         <item name="android:textColorPrimary">@color/mesaColor</item>
         <item name="android:textColor">@color/mesaColor</item>
         <item name="android:datePickerDialogTheme">@style/CustomDatePicker</item>
