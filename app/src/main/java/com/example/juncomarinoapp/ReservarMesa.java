@@ -68,7 +68,6 @@ public class ReservarMesa extends Fragment {
         datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                // Capturar la fecha seleccionada
                 String fechaSeleccionada = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
                 Toast.makeText(getContext(), "Fecha seleccionada: " + fechaSeleccionada, Toast.LENGTH_SHORT).show();
             }
