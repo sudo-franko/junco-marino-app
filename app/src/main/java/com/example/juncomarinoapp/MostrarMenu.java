@@ -8,16 +8,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.juncomarinoapp.adapters.CategoriaAdapter;
 import com.example.juncomarinoapp.adapters.MenuAdapter;
 import com.example.juncomarinoapp.modelo.dao.PlatilloDAO;
@@ -36,6 +39,9 @@ public class MostrarMenu extends Fragment {
     private MenuAdapter adapter;
     private TextView tvCategoria;
 
+    private LinearLayout loadingOverlay;
+    private ImageView loadingGif;
+
     public MostrarMenu() {
         // Required empty public constructor
     }
@@ -51,6 +57,10 @@ public class MostrarMenu extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         enlazarControles(view);
+        Glide.with(this)
+                .asGif()
+                .load(R.drawable.loading_animation) // Archivo GIF en res/drawable
+                .into(loadingGif);
         adapter = new MenuAdapter(getContext(), null);
         PlatilloDAO pDAO = new PlatilloDAO(getContext());
         pDAO.listarPlatillos(new PlatilloDAO.PlatillosListener() {
@@ -116,11 +126,18 @@ public class MostrarMenu extends Fragment {
                 transaction.commit();
             }
         });
+        new Handler().postDelayed(() -> {
+            loadingOverlay.setVisibility(View.GONE); // Oculta la capa de carga
+            view.findViewById(R.id.contentLayout).setVisibility(View.VISIBLE); // Muestra el contenido
+        }, 5000); // Ti
     }
 
     private void enlazarControles(View view){
         lvMenu = view.findViewById(R.id.lvMenu);
         recyclerView = view.findViewById(R.id.recycler);
         tvCategoria = view.findViewById(R.id.tvCategoria);
+
+        loadingOverlay = view.findViewById(R.id.loadingOverlay);
+        loadingGif = view.findViewById(R.id.loadingGif);
     }
 }

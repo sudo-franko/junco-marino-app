@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.glide)
     implementation(libs.picasso)
     implementation(libs.appcompat)
     implementation(libs.material)
