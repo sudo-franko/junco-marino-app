@@ -1,5 +1,6 @@
 package com.example.juncomarinoapp;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -46,6 +47,7 @@ public class ReservarMesa extends Fragment {
     private Usuario usuario;
     private String fecha;
     private ReservaMesa reserva = new ReservaMesa();
+    private long fechaNotif;
 
     public ReservarMesa() {
         // Required empty public constructor
@@ -114,6 +116,8 @@ public class ReservarMesa extends Fragment {
         datePicker.setMinDate(calendar.getTimeInMillis());
         datePicker.updateDate(year, month, day);
         String fechaSeleccionada = String.format("%04d-%02d-%02d", year, month + 1, day);
+        fecha = fechaSeleccionada;
+        establecerFechaNotificacion(year, month, day);
         ReservaMesaDAO dao = new ReservaMesaDAO(getContext());
         dao.listarMesasReservasPorFecha(fechaSeleccionada, new ReservaMesaDAO.ListarListener() {
             @Override
@@ -135,6 +139,7 @@ public class ReservarMesa extends Fragment {
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 String fechaSeleccionada = String.format("%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
                 fecha = fechaSeleccionada;
+                establecerFechaNotificacion(year, monthOfYear, dayOfMonth);
                 mostrarCargando();
                 habilitarBotones();
                 ReservaMesaDAO dao = new ReservaMesaDAO(getContext());
@@ -234,6 +239,12 @@ public class ReservarMesa extends Fragment {
         mesa4.setEnabled(true);
         mesa5.setEnabled(true);
         mesa6.setEnabled(true);
+        mesa1.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.mesaColor));
+        mesa2.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.mesaColor));
+        mesa3.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.mesaColor));
+        mesa4.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.mesaColor));
+        mesa5.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.mesaColor));
+        mesa6.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.mesaColor));
     }
 
     private void inhabilitarBotones(ArrayList<ReservaMesa> reservas){
@@ -316,15 +327,29 @@ public class ReservarMesa extends Fragment {
         builder.show();
     }
 
+    @SuppressLint("ScheduleExactAlarm")
     private void scheduleNotification(Context context, long triggerTimeInMillis) {
         Intent intent = new Intent(context, NotificationReceiver.class);
         intent.putExtra("notification_id", 1);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTimeInMillis, pendingIntent);
         }
+    }
+
+    private void establecerFechaNotificacion(int year, int monthOfYear, int dayOfMonth){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, monthOfYear);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        fechaNotif = calendar.getTimeInMillis();
     }
 
 }
