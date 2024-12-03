@@ -1,6 +1,7 @@
 package com.example.juncomarinoapp.modelo.dao;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -10,10 +11,14 @@ import com.android.volley.toolbox.Volley;
 import com.example.juncomarinoapp.interfaces.ConstantesApp;
 import com.example.juncomarinoapp.modelo.dto.ReservaMesa;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ReservaMesaDAO {
@@ -164,17 +169,56 @@ public class ReservaMesaDAO {
         rq.add(solicitud);
     }
 
-    public void listarReservasPorCliente(int id, final ListarListener listener) {
-        String url = ConstantesApp.URL_GENERAL + "listarReservasPorCliente/" + id;
-        JsonArrayRequest solicitud = new JsonArrayRequest(
+
+    public void listarMesasReservasPorFecha(String fecha, final ListarListener listener) {
+        String url = ConstantesApp.URL_GENERAL + "listarMesasReservasPorFecha?fecha=" + fecha;
+        JsonObjectRequest solicitud = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
                 null,
                 response -> {
                     try {
+                        String status = response.getString("status");
+                        if (!"success".equals(status)) {
+                            listener.onListarFallido("Error en la respuesta: estado no exitoso");
+                            return;
+                        }
+                        JSONArray reservasArray = response.getJSONArray("reservas");
                         ArrayList<ReservaMesa> reservas = new ArrayList<>();
-                        for (int i = 0; i < response.length(); i++) {
-                            JSONObject obj = response.getJSONObject(i);
+                        for (int i = 0; i < reservasArray.length(); i++) {
+                            JSONObject obj = reservasArray.getJSONObject(i);
+                            ReservaMesa reserva = new ReservaMesa();
+                            reserva.setIdReserva(obj.getInt("idReserva"));
+                            reserva.setNumMesa(obj.getInt("numMesa"));
+                            reservas.add(reserva);
+                        }
+                        listener.onListarExitoso(reservas);
+                    } catch (JSONException e) {
+                        listener.onListarFallido("Error en la respuesta JSON");
+                    }
+                },
+                error -> listener.onListarFallido(error.toString())
+        );
+        rq.add(solicitud);
+    }
+
+    public void listarReservasPorCliente(int id, final ListarListener listener) {
+        String url = ConstantesApp.URL_GENERAL + "listarReservasPorCliente/" + id;
+        JsonObjectRequest solicitud = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        String status = response.getString("status");
+                        if (!"success".equals(status)) {
+                            listener.onListarFallido("Error en la respuesta: estado no exitoso");
+                            return;
+                        }
+                        JSONArray reservasArray = response.getJSONArray("reservas");
+                        ArrayList<ReservaMesa> reservas = new ArrayList<>();
+                        for (int i = 0; i < reservasArray.length(); i++) {
+                            JSONObject obj = reservasArray.getJSONObject(i);
                             ReservaMesa reserva = new ReservaMesa();
                             reserva.setIdReserva(obj.getInt("idReserva"));
                             reserva.setIdCliente(obj.getInt("idCliente"));
@@ -190,7 +234,7 @@ public class ReservaMesaDAO {
                         listener.onListarFallido("Error en la respuesta JSON");
                     }
                 },
-                error -> listener.onListarFallido("Error en la solicitud: " + error.toString())
+                error -> listener.onListarFallido(error.toString())
         );
         rq.add(solicitud);
     }

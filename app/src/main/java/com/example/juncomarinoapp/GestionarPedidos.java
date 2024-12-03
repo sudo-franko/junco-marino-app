@@ -14,8 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.bumptech.glide.Glide;
 import com.example.juncomarinoapp.adapters.MenuAdapter;
 import com.example.juncomarinoapp.adapters.PedidoAdapter;
 import com.example.juncomarinoapp.modelo.dto.Pedido;
@@ -52,8 +55,7 @@ public class GestionarPedidos extends Fragment {
                         .commit();
             }
         });
-
-        lvPedidos = view.findViewById(R.id.lvPedidos);
+        enlazarControles(view);
         PedidoSQLite pSQL = new PedidoSQLite(getContext());
         ArrayList<Pedido> pedidos = pSQL.listarPedidos();
 
@@ -74,5 +76,9 @@ public class GestionarPedidos extends Fragment {
                 transaction.commit();
             }
         });
+    }
+
+    private void enlazarControles(View view){
+        lvPedidos = view.findViewById(R.id.lvPedidos);
     }
 }

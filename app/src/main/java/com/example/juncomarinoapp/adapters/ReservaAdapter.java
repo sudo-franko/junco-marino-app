@@ -6,12 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.juncomarinoapp.R;
-import com.example.juncomarinoapp.modelo.dto.Pedido;
 import com.example.juncomarinoapp.modelo.dto.ReservaMesa;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ReservaAdapter extends BaseAdapter {
     private Context context;
@@ -44,7 +47,7 @@ public class ReservaAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_pedido, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_reserva, parent, false);
         }
 
         ReservaMesa item = (ReservaMesa) getItem(position);
@@ -55,8 +58,19 @@ public class ReservaAdapter extends BaseAdapter {
 
         idView.setText("PEDIDO (ID: " + item.getIdReserva() + ")");
         nombreView.setText("Usuario: " + item.getNomCliente());
-        infoView.setText("MESA N° "+item.getNumMesa() + "  [" + item.getFecha() + "]");
+/*
+        SimpleDateFormat formatoOriginal = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+        SimpleDateFormat formatoDeseado = new SimpleDateFormat("dd-MM-yyyy");
 
+        try {
+            Date fecha = formatoOriginal.parse(item.getFecha());
+            String nuevaFecha = formatoDeseado.format(fecha);
+            infoView.setText("MESA N° "+item.getNumMesa() + "  [" + nuevaFecha + "]");
+        } catch (ParseException e) {
+            Toast.makeText(context, "Error: " +e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+*/
+        infoView.setText("MESA N° "+item.getNumMesa() + "  [" + item.getFecha() + "]");
         return convertView;
     }
 }

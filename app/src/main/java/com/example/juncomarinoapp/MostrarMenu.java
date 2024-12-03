@@ -38,7 +38,6 @@ public class MostrarMenu extends Fragment {
     private ArrayList<CategoriaPlatillo> listaCategorias;
     private MenuAdapter adapter;
     private TextView tvCategoria;
-
     private LinearLayout loadingOverlay;
     private ImageView loadingGif;
 
@@ -59,7 +58,7 @@ public class MostrarMenu extends Fragment {
         enlazarControles(view);
         Glide.with(this)
                 .asGif()
-                .load(R.drawable.loading_animation) // Archivo GIF en res/drawable
+                .load(R.drawable.loading_animation)
                 .into(loadingGif);
         adapter = new MenuAdapter(getContext(), null);
         PlatilloDAO pDAO = new PlatilloDAO(getContext());
@@ -108,6 +107,10 @@ public class MostrarMenu extends Fragment {
                 }else{
                     Toast.makeText(view.getContext(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
                 }
+                new Handler().postDelayed(() -> {
+                    loadingOverlay.setVisibility(View.GONE);
+                    view.findViewById(R.id.contentLayout).setVisibility(View.VISIBLE);
+                }, 2000);
             }
         });
 
@@ -126,17 +129,12 @@ public class MostrarMenu extends Fragment {
                 transaction.commit();
             }
         });
-        new Handler().postDelayed(() -> {
-            loadingOverlay.setVisibility(View.GONE); // Oculta la capa de carga
-            view.findViewById(R.id.contentLayout).setVisibility(View.VISIBLE); // Muestra el contenido
-        }, 5000); // Ti
     }
 
     private void enlazarControles(View view){
         lvMenu = view.findViewById(R.id.lvMenu);
         recyclerView = view.findViewById(R.id.recycler);
         tvCategoria = view.findViewById(R.id.tvCategoria);
-
         loadingOverlay = view.findViewById(R.id.loadingOverlay);
         loadingGif = view.findViewById(R.id.loadingGif);
     }
