@@ -55,22 +55,12 @@ public class ReservaAdapter extends BaseAdapter {
         TextView idView = convertView.findViewById(R.id.tvIDReserva);
         TextView nombreView = convertView.findViewById(R.id.tvNombreUsuario);
         TextView infoView = convertView.findViewById(R.id.tvInfoReserva);
+        TextView estadoView = convertView.findViewById(R.id.tvEstadoReserva);
 
         idView.setText("PEDIDO (ID: " + item.getIdReserva() + ")");
         nombreView.setText("Usuario: " + item.getNomCliente());
-/*
-        SimpleDateFormat formatoOriginal = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
-        SimpleDateFormat formatoDeseado = new SimpleDateFormat("dd-MM-yyyy");
-
-        try {
-            Date fecha = formatoOriginal.parse(item.getFecha());
-            String nuevaFecha = formatoDeseado.format(fecha);
-            infoView.setText("MESA N° "+item.getNumMesa() + "  [" + nuevaFecha + "]");
-        } catch (ParseException e) {
-            Toast.makeText(context, "Error: " +e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-*/
         infoView.setText("MESA N° "+item.getNumMesa() + "  [" + item.getFecha() + "]");
+        estadoView.setText("ESTADO: " +item.getEstado());
         return convertView;
     }
 }

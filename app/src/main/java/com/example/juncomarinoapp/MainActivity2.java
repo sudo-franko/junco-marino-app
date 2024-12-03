@@ -76,6 +76,11 @@ public class MainActivity2 extends AppCompatActivity {
             return insets;
         });
 
+        String fragmentName = getIntent().getStringExtra("go_to_fragment");
+        if (fragmentName != null && fragmentName.equals("VerDetalleReserva")) {
+            navigateToFragment(new VerDetalleReserva());
+        }
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         drawerLayout1 = findViewById(R.id.drawerlayout1);
@@ -123,6 +128,12 @@ public class MainActivity2 extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void navigateToFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame1, fragment)
+                .commit();
     }
 
 }

@@ -37,7 +37,7 @@ public class GenerarQrReserva extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         enlazarControles(view);
         if (getArguments() != null) {
-            idReserva = getArguments().getInt("ID_PEDIDO");
+            idReserva = getArguments().getInt("ID_RESERVA");
             String imageUrl = ConstantesApp.URL_GENERAL+"obtenerQRReserva/"+ idReserva;
             Picasso.get().load(imageUrl).into(ivQRReserva);
             tvIDReserva.setText("PEDIDO #00" +idReserva);

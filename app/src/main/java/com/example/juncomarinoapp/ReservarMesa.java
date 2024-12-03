@@ -1,7 +1,11 @@
 package com.example.juncomarinoapp;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -26,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.example.juncomarinoapp.modelo.dao.ReservaMesaDAO;
 import com.example.juncomarinoapp.modelo.dto.ReservaMesa;
 import com.example.juncomarinoapp.modelo.dto.Usuario;
+import com.example.juncomarinoapp.servicios.NotificationReceiver;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -109,6 +113,20 @@ public class ReservarMesa extends Fragment {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         datePicker.setMinDate(calendar.getTimeInMillis());
         datePicker.updateDate(year, month, day);
+        String fechaSeleccionada = String.format("%04d-%02d-%02d", year, month + 1, day);
+        ReservaMesaDAO dao = new ReservaMesaDAO(getContext());
+        dao.listarMesasReservasPorFecha(fechaSeleccionada, new ReservaMesaDAO.ListarListener() {
+            @Override
+            public void onListarExitoso(ArrayList<ReservaMesa> reservas) {
+                cambiarSeleccion(0, numSeleccionado);
+                inhabilitarBotones(reservas);
+            }
+
+            @Override
+            public void onListarFallido(String mensaje) {
+                Toast.makeText(getContext(), "Error:" + mensaje, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void capturarFechaSeleccionada() {
@@ -221,7 +239,9 @@ public class ReservarMesa extends Fragment {
     private void inhabilitarBotones(ArrayList<ReservaMesa> reservas){
         Set<Integer> mesasReservadas = new HashSet<>();
         for (ReservaMesa r : reservas) {
-            mesasReservadas.add(r.getNumMesa());
+            if(r.getEstado().equals("Pendiente") || r.getEstado().equals("Confirmada")) {
+                mesasReservadas.add(r.getNumMesa());
+            }
         }
         if (mesasReservadas.contains(1)) inhabilitar(mesa1);
         if (mesasReservadas.contains(2)) inhabilitar(mesa2);
@@ -267,6 +287,15 @@ public class ReservarMesa extends Fragment {
                     @Override
                     public void onRegistroExitoso(String mensaje, ReservaMesa reserva) {
                         Toast.makeText(getContext(), mensaje, Toast.LENGTH_LONG).show();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.add(Calendar.DAY_OF_YEAR, 1);
+                        calendar.set(Calendar.HOUR_OF_DAY, 8);
+                        calendar.set(Calendar.MINUTE, 0);
+                        calendar.set(Calendar.SECOND, 0);
+                        calendar.set(Calendar.MILLISECOND, 0);
+
+                        scheduleNotification(getContext(), calendar.getTimeInMillis());
+
                         Fragment mostrarReservaFinalizada = MostrarReservaFinalizada.newInstance(reserva.getIdReserva());
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
@@ -285,6 +314,17 @@ public class ReservarMesa extends Fragment {
         });
         builder.setNegativeButton("Cancelar", null);
         builder.show();
+    }
+
+    private void scheduleNotification(Context context, long triggerTimeInMillis) {
+        Intent intent = new Intent(context, NotificationReceiver.class);
+        intent.putExtra("notification_id", 1);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTimeInMillis, pendingIntent);
+        }
     }
 
 }

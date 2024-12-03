@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -100,6 +101,23 @@ public class GestionarReservas extends Fragment {
                 transaction.replace(R.id.frame1, fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
+            }
+        });
+        lvReservas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
+                ReservaMesa reservaSeleccionada = (ReservaMesa) parent.getItemAtPosition(position);
+                if(!reservaSeleccionada.getEstado().equals("Cancelada")) {
+                    VerDetalleReserva fragment = new VerDetalleReserva();
+                    Bundle b = new Bundle();
+                    b.putSerializable("RESERVA", reservaSeleccionada);
+                    fragment.setArguments(b);
+
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.frame1, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
             }
         });
     }

@@ -189,6 +189,7 @@ public class ReservaMesaDAO {
                             ReservaMesa reserva = new ReservaMesa();
                             reserva.setIdReserva(obj.getInt("idReserva"));
                             reserva.setNumMesa(obj.getInt("numMesa"));
+                            reserva.setEstado(obj.getString("estado"));
                             reservas.add(reserva);
                         }
                         listener.onListarExitoso(reservas);

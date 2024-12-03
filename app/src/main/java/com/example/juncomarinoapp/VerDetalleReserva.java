@@ -3,10 +3,12 @@ package com.example.juncomarinoapp;
 import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
@@ -39,6 +41,16 @@ public class VerDetalleReserva extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frame1, new GestionarReservas())
+                        .commit();
+            }
+        });
         enlazarControles(view);
         if (getArguments() != null) {
             reserva = (ReservaMesa) getArguments().getSerializable("RESERVA");
@@ -58,10 +70,18 @@ public class VerDetalleReserva extends Fragment {
                 btnActualizar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        ActualizarReservaMesa fragment = new ActualizarReservaMesa();
+                        Bundle b = new Bundle();
+                        b.putSerializable("RESERVA", reserva);
+                        fragment.setArguments(b);
 
+                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.frame1, fragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                     }
                 });
-            }else{
+            }else if(reserva.getEstado().equals("Confirmada")){
                 btnConfirmar.setText("GENERAR QR");
                 btnConfirmar.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -80,6 +100,9 @@ public class VerDetalleReserva extends Fragment {
                 btnActualizar.setEnabled(false);
                 btnActualizar.setBackgroundTintList(
                         ContextCompat.getColorStateList(getContext(), R.color.deshabilitado));
+            }else{
+                btnActualizar.setEnabled(false);
+                btnConfirmar.setEnabled(false);
             }
         }else{
             btnActualizar.setEnabled(false);
@@ -102,7 +125,7 @@ public class VerDetalleReserva extends Fragment {
         builder.setMessage("¿Deseas continuar? Si lo haces ya no podrás actualizar la información de tu reserva");
 
         builder.setPositiveButton("Continuar", (dialog, which) -> {
-            reserva.setEstado("Confirmado");
+            reserva.setEstado("Confirmada");
             ReservaMesaDAO rDAO = new ReservaMesaDAO(getContext());
             rDAO.actualizarReservaMesa(reserva, new ReservaMesaDAO.ActualizarListener() {
                 @Override
