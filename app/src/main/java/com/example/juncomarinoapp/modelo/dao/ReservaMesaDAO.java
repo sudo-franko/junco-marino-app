@@ -169,7 +169,6 @@ public class ReservaMesaDAO {
         rq.add(solicitud);
     }
 
-
     public void listarMesasReservasPorFecha(String fecha, final ListarListener listener) {
         String url = ConstantesApp.URL_GENERAL + "listarMesasReservasPorFecha?fecha=" + fecha;
         JsonObjectRequest solicitud = new JsonObjectRequest(

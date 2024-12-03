@@ -1,6 +1,8 @@
 package com.example.juncomarinoapp.modelo.dto;
 
-public class ReservaMesa {
+import java.io.Serializable;
+
+public class ReservaMesa implements Serializable {
     private int idReserva;
     private int idCliente;
     private String nomCliente;
