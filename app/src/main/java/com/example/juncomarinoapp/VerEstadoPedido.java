@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.juncomarinoapp.adapters.DetallePedidoAdapter;
+import com.example.juncomarinoapp.modelo.dao.PedidoDAO;
 import com.example.juncomarinoapp.modelo.dto.DetallePedido;
 import com.example.juncomarinoapp.modelo.dto.Pedido;
 import com.example.juncomarinoapp.modelo.sqlite.DetallePedidoSQLite;
@@ -58,40 +59,61 @@ public class VerEstadoPedido extends Fragment {
             Toast.makeText(getContext(), "PEDIDO: " + detalles.size(), Toast.LENGTH_LONG).show();
             lvDetallePedido.setAdapter(adapter);
             tvNumeroPedido.setText("PEDIDO #00" + pedido.getIdPedido());
-            switch(pedido.getEstado()){
-                case "Solicitado":
-                    tvEstadoPedido.setText("Solicitado");
-                    tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.yellow));
-                    barraProgreso.setProgress(10);
-                    barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.yellow)));
-                    break;
-                case "En preparacion":
-                    tvEstadoPedido.setText("En preparación");
-                    tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.orange));
-                    barraProgreso.setProgress(40);
-                    barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.orange)));
-                    break;
-                case "En camino":
-                    tvEstadoPedido.setText("En camino");
-                    tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-                    barraProgreso.setProgress(80);
-                    barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.green)));
-                    break;
-                case "Listo para recoger":
-                    tvEstadoPedido.setText("Listo para recoger");
-                    tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-                    barraProgreso.setProgress(90);
-                    barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.green)));
-                    break;
-                case "Entregado":
-                    tvEstadoPedido.setText("En preparación");
-                    tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-                    barraProgreso.setProgress(100);
-                    barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.green)));
-                    break;
-                default:
-                    break;
-            }
+            PedidoDAO pDAO = new PedidoDAO(getContext());
+            pDAO.obtenerEstadoPedidoPorId(pedido.getIdPedido(), new PedidoDAO.BuscarListener() {
+                @Override
+                public void onBuscarExitoso(Pedido p) {
+                    if(!p.getEstado().equals("Solicitado")){
+                        pedido.setEstado(p.getEstado());
+                    }
+                    if(pedido.getEstado().equals("Entregado") && p.getCalificacion().equals("")){
+
+
+                        // LOGICA PARA OBTENER FEEDBACK
+
+
+                    }
+                    switch(pedido.getEstado()){
+                        case "Solicitado":
+                            tvEstadoPedido.setText("Solicitado");
+                            tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.yellow));
+                            barraProgreso.setProgress(10);
+                            barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.yellow)));
+                            break;
+                        case "En preparacion":
+                            tvEstadoPedido.setText("En preparación");
+                            tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.orange));
+                            barraProgreso.setProgress(40);
+                            barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.orange)));
+                            break;
+                        case "En camino":
+                            tvEstadoPedido.setText("En camino");
+                            tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                            barraProgreso.setProgress(80);
+                            barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.green)));
+                            break;
+                        case "Listo para recoger":
+                            tvEstadoPedido.setText("Listo para recoger");
+                            tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                            barraProgreso.setProgress(90);
+                            barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.green)));
+                            break;
+                        case "Entregado":
+                            tvEstadoPedido.setText("Entregado");
+                            tvEstadoPedido.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                            barraProgreso.setProgress(100);
+                            barraProgreso.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.green)));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                @Override
+                public void onBuscarFallido(String error) {
+                    Toast.makeText(getContext(), "Error al obtener el estado: " + error, Toast.LENGTH_LONG).show();
+                }
+            });
             btnGenerarQR.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -82,4 +82,17 @@ public class UsuarioSQLite {
         }
         return null;
     }
+
+    public String eliminarUsuario(String id) {
+        String rpta = "";
+        String whereClause = "id = " + id;
+        try{
+            int filas = bdd.delete(ConstantesApp.TABLA_USUARIO, whereClause, null);
+            if (filas == 0 || filas > 1)
+                rpta = "No se pudo eliminar el registro";
+        } catch(SQLException ex) {
+            rpta = ex.getMessage().toString();
+        }
+        return rpta;
+    }
 }

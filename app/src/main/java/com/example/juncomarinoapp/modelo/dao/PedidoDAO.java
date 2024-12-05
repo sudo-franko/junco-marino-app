@@ -12,10 +12,13 @@ import com.android.volley.toolbox.Volley;
 import com.example.juncomarinoapp.interfaces.ConstantesApp;
 import com.example.juncomarinoapp.modelo.dto.DetallePedido;
 import com.example.juncomarinoapp.modelo.dto.Pedido;
+import com.example.juncomarinoapp.modelo.dto.ReservaMesa;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class PedidoDAO {
     private RequestQueue rq;
@@ -156,9 +159,47 @@ public class PedidoDAO {
         rq.add(solicitud);
     }
 
+    public void obtenerEstadoPedidoPorId(int id, final PedidoDAO.BuscarListener listener) {
+        String url = ConstantesApp.URL_GENERAL + "obtenerEstadoPedido/" + id;
+        JsonObjectRequest solicitud = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        String status = response.getString("status");
+                        if (!"success".equals(status)) {
+                            listener.onBuscarFallido("Error en la respuesta: estado no exitoso");
+                            return;
+                        }
+                        JSONArray pedidoArray = response.getJSONArray("pedido");
+                        ArrayList<Pedido> pedidos = new ArrayList<>();
+                        for (int i = 0; i < pedidoArray.length(); i++) {
+                            JSONObject obj = pedidoArray.getJSONObject(i);
+                            Pedido pedido = new Pedido();
+                            pedido.setIdPedido(id);
+                            pedido.setEstado(obj.getString("estado"));
+                            pedido.setCalificacion(obj.getString("calificacion"));
+                            pedido.setComentario(obj.getString("comentario"));
+                            pedidos.add(pedido);
+                        }
+                        listener.onBuscarExitoso(pedidos.get(0));
+                    } catch (JSONException e) {
+                        listener.onBuscarFallido("Error en la respuesta JSON");
+                    }
+                },
+                error -> listener.onBuscarFallido(error.toString())
+        );
+        rq.add(solicitud);
+    }
 
     public interface RegistroListener {
         void onRegistroExitoso(String mensaje, Pedido p);
         void onRegistroFallido(String error);
+    }
+
+    public interface BuscarListener {
+        void onBuscarExitoso(Pedido pedido);
+        void onBuscarFallido(String error);
     }
 }

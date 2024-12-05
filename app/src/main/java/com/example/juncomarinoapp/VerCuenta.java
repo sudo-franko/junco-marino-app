@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.juncomarinoapp.modelo.dto.Usuario;
@@ -18,6 +19,7 @@ import com.example.juncomarinoapp.modelo.dto.Usuario;
 public class VerCuenta extends Fragment {
 
     private TextView tvNombres, tvCorreo, tvTelefono, tvDireccion;
+    private Button btnActualizar, btnCerrarCuenta;
 
     public VerCuenta() {
         // Required empty public constructor
@@ -52,6 +54,20 @@ public class VerCuenta extends Fragment {
             tvCorreo.setText(u.getCorreo());
             tvDireccion.setText(u.getDireccion());
         }
+
+        btnActualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        btnCerrarCuenta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void enlazarControles(View view){
@@ -59,5 +75,7 @@ public class VerCuenta extends Fragment {
         tvTelefono = view.findViewById(R.id.tvTelefonoCuenta);
         tvCorreo = view.findViewById(R.id.tvCorreoCuenta);
         tvDireccion = view.findViewById(R.id.tvDireccionCuenta);
+        btnActualizar = view.findViewById(R.id.btnActualizar);
+        btnCerrarCuenta = view.findViewById(R.id.btnCrearCuenta);
     }
 }

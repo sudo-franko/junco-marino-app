@@ -91,4 +91,24 @@
         android:textSize="18sp"
         android:id="@+id/tvDireccionCuenta"/>
 
+    <Button
+        android:id="@+id/btnActualizar"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:text="ACTUALIZAR DATOS"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/blue"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/btnCerrarCuenta"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:text="CERRAR CUENTA"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/blue"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"/>
+
 </LinearLayout>
