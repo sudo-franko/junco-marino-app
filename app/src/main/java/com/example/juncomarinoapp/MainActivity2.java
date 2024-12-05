@@ -116,7 +116,7 @@ public class MainActivity2 extends AppCompatActivity {
                 }
                 else if(item.getItemId() == R.id.nav_cuenta){
                     if(usuario == null) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new GuardarCuenta()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new LoginCuenta()).commit();
                     }else{
                         getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new VerCuenta()).commit();
                     }

@@ -11,8 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.juncomarinoapp.modelo.dao.UsuarioDAO;
 import com.example.juncomarinoapp.modelo.dto.Usuario;
+import com.example.juncomarinoapp.modelo.sqlite.UsuarioSQLite;
 
 public class LoginCuenta extends Fragment {
 
@@ -40,7 +43,21 @@ public class LoginCuenta extends Fragment {
                 Usuario u = new Usuario();
                 u.setUsuario(etUsuario.getText().toString());
                 u.setContrasena(etContrasenia.getText().toString());
+                UsuarioDAO uDAO = new UsuarioDAO(getContext());
+                uDAO.loginCliente(u, new UsuarioDAO.LoginListener() {
+                    @Override
+                    public void onLoginExitoso(String mensaje, Usuario usuario) {
+                        UsuarioSQLite uSQL = new UsuarioSQLite(getContext());
+                        uSQL.registrarUsuario(usuario);
+                        Toast.makeText(getContext(), mensaje, Toast.LENGTH_LONG).show();
+                        getActivity().finish();
+                    }
 
+                    @Override
+                    public void onLoginFallido(String mensaje) {
+                        Toast.makeText(getContext(), mensaje, Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
         btnCrearCuenta.setOnClickListener(new View.OnClickListener() {

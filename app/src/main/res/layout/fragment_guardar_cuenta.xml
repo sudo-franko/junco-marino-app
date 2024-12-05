@@ -16,8 +16,9 @@
             android:layout_height="wrap_content"
             android:text="GUARDAR CUENTA"
             android:textSize="24sp"
-            android:textColor="#004A9F"
+            android:textColor="@color/blue"
             android:gravity="center"
+            android:textStyle="bold"
             android:layout_gravity="center_horizontal"/>
 
         <EditText

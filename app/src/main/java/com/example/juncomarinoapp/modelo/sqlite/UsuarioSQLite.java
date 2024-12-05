@@ -85,7 +85,7 @@ public class UsuarioSQLite {
 
     public String eliminarUsuario(String id) {
         String rpta = "";
-        String whereClause = "id = " + id;
+        String whereClause = "idCliente = " + id;
         try{
             int filas = bdd.delete(ConstantesApp.TABLA_USUARIO, whereClause, null);
             if (filas == 0 || filas > 1)
