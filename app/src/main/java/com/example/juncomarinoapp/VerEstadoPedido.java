@@ -82,6 +82,9 @@ public class VerEstadoPedido extends Fragment {
                                 enviarFeedback();
                             }
                         });
+                    }else if(pedido.getEstado().equals("Entregado") && !p.getCalificacion().equals("")){
+                        btnGenerarQR.setEnabled(false);
+                        btnGenerarQR.setVisibility(View.GONE);
                     }
                     switch(pedido.getEstado()){
                         case "Solicitado":

@@ -51,6 +51,7 @@ public class EnviarFeedback extends Fragment {
                     int calificacionEntera = Math.round(calificacion);
                     String comentario = etComentario.getText().toString();
                     Pedido p = new Pedido();
+                    p.setIdPedido(idPedido);
                     p.setCalificacion(String.valueOf(calificacionEntera));
                     p.setComentario(comentario);
                     PedidoDAO pDAO = new PedidoDAO(requireContext());
