@@ -106,37 +106,6 @@ public class ReservaMesaDAO {
         rq.add(solicitud);
     }
 
-    public void listarReservas(final ListarListener listener) {
-        String url = ConstantesApp.URL_GENERAL + "listarReservas";
-        JsonArrayRequest solicitud = new JsonArrayRequest(
-                Request.Method.GET,
-                url,
-                null,
-                response -> {
-                    try {
-                        ArrayList<ReservaMesa> reservas = new ArrayList<>();
-                        for (int i = 0; i < response.length(); i++) {
-                            JSONObject obj = response.getJSONObject(i);
-                            ReservaMesa reserva = new ReservaMesa();
-                            reserva.setIdReserva(obj.getInt("idReserva"));
-                            reserva.setIdCliente(obj.getInt("idCliente"));
-                            reserva.setNomCliente(obj.optString("nombreCompleto", ""));
-                            reserva.setNumPersonas(obj.getInt("numPersonas"));
-                            reserva.setNumMesa(obj.getInt("numMesa"));
-                            reserva.setFecha(obj.getString("fecha"));
-                            reserva.setEstado(obj.getString("estado"));
-                            reservas.add(reserva);
-                        }
-                        listener.onListarExitoso(reservas);
-                    } catch (JSONException e) {
-                        listener.onListarFallido("Error en la respuesta JSON");
-                    }
-                },
-                error -> listener.onListarFallido("Error en la solicitud: " + error.toString())
-        );
-        rq.add(solicitud);
-    }
-
     public void listarReservasPorFecha(String fecha, final ListarListener listener) {
         String url = ConstantesApp.URL_GENERAL + "listarReservasPorFecha?fecha=" + fecha;
 

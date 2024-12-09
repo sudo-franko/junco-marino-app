@@ -68,7 +68,7 @@ public class MostrarMenu extends Fragment {
                 menuItems = platillos;
                 ArrayList<Platillo> listaDefecto = new ArrayList<>();
                 for(Platillo p: menuItems){
-                    if(p.getIdCategoria() == 1){
+                    if(p.getIdCategoria() == 1 && p.isDisponible()){
                         listaDefecto.add(p);
                     }
                 }
@@ -91,7 +91,7 @@ public class MostrarMenu extends Fragment {
                         public void onClick(ImageView imageView, int position) {
                             ArrayList<Platillo> platillos = new ArrayList<>();
                             for(Platillo p: menuItems){
-                                if(p.getIdCategoria() == position + 1){
+                                if(p.getIdCategoria() == position + 1 && p.isDisponible()){
                                     platillos.add(p);
                                 }
                             }

@@ -86,7 +86,10 @@ public class PlatilloDAO {
                                 String precio = plato.getString("precio");
                                 int idCategoria = plato.getInt("idCategoria");
                                 String categoria = plato.getString("categoria");
-                                Platillo p = new Platillo(idPlatillo, nombre, descripcion, precio, idCategoria, categoria);
+                                boolean disponible = true;
+                                if(plato.getInt("disponible") == 0)
+                                    disponible = false;
+                                Platillo p = new Platillo(idPlatillo, nombre, descripcion, precio, idCategoria, categoria, disponible);
                                 platillos.add(p);
                             }
                             listener.onPlatillosRecibidos(platillos);

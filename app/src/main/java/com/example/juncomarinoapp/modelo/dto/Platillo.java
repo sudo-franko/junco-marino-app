@@ -9,15 +9,17 @@ public class Platillo implements Serializable {
     private String precio;
     private int idCategoria;
     private String categoria;
+    private boolean disponible;
 
     public Platillo(int idPlatillo, String nombre, String descripcion, String precio,
-                    int idCategoria, String categoria) {
+                    int idCategoria, String categoria, boolean disponible) {
         this.idPlatillo = idPlatillo;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.idCategoria = idCategoria;
         this.categoria = categoria;
+        this.disponible = disponible;
     }
 
     public int getIdPlatillo() {
@@ -66,5 +68,13 @@ public class Platillo implements Serializable {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
     }
 }

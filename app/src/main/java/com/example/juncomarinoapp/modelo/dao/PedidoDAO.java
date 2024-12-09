@@ -99,7 +99,6 @@ public class PedidoDAO {
         JSONObject parametros = new JSONObject();
 
         try {
-            // Asignar los valores del objeto pedido a un objeto JSON
             parametros.put("idCliente", pedido.getIdCliente());
             parametros.put("nombreCliente", pedido.getNombreCliente());
             parametros.put("telefonoCliente", pedido.getTelefonoCliente());
@@ -112,9 +111,8 @@ public class PedidoDAO {
             JSONArray detallePedidoJsonArray = new JSONArray();
             for (DetallePedido detalle : pedido.getDetalles()) {
                 JSONObject detalleJson = new JSONObject();
-                // Asegúrate de que la clase DetallePedido tenga los métodos getters necesarios
-                detalleJson.put("idPlatillo", detalle.getIdPlatillo()); // Cambia esto según tus atributos
-                detalleJson.put("cantidad", detalle.getCantidad()); // Cambia esto según tus atributos
+                detalleJson.put("idPlatillo", detalle.getIdPlatillo());
+                detalleJson.put("cantidad", detalle.getCantidad());
                 detalleJson.put("subtotal", detalle.getSubtotal());
                 detallePedidoJsonArray.put(detalleJson);
             }
@@ -193,9 +191,48 @@ public class PedidoDAO {
         rq.add(solicitud);
     }
 
+    public void enviarFeedbackPedido(Pedido pedido, final ActualizarListener listener){
+        String url = ConstantesApp.URL_GENERAL + "enviarFeedbackPedido/"+pedido.getIdPedido();
+        JSONObject parametros = new JSONObject();
+
+        try {
+            parametros.put("calificacion", pedido.getCalificacion());
+            parametros.put("comentario", pedido.getComentario());
+        } catch (JSONException e) {
+            listener.onActualizarFallido("Error al crear los parámetros JSON");
+            return;
+        }
+
+        JsonObjectRequest solicitud = new JsonObjectRequest(
+                Request.Method.PUT,
+                url,
+                parametros,
+                response -> {
+                    try {
+                        String status = response.getString("status");
+                        if (status.equals("success")) {
+                            listener.onActualizarExitoso("Feedback enviado");
+                        } else {
+                            String error = response.optString("error", "Error desconocido");
+                            listener.onActualizarFallido("Error: " + error);
+                        }
+                    } catch (JSONException e) {
+                        listener.onActualizarFallido("Error en la respuesta JSON");
+                    }
+                },
+                error -> listener.onActualizarFallido("Error en la solicitud: " + error.toString())
+        );
+        rq.add(solicitud);
+    }
+
     public interface RegistroListener {
         void onRegistroExitoso(String mensaje, Pedido p);
         void onRegistroFallido(String error);
+    }
+
+    public interface ActualizarListener {
+        void onActualizarExitoso(String mensaje);
+        void onActualizarFallido(String error);
     }
 
     public interface BuscarListener {

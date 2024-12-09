@@ -56,7 +56,6 @@ public class VerEstadoPedido extends Fragment {
             DetallePedidoSQLite dpSQL = new DetallePedidoSQLite(getContext());
             ArrayList<DetallePedido> detalles = dpSQL.listarDetalles(pedido.getIdPedido());
             DetallePedidoAdapter adapter = new DetallePedidoAdapter(getContext(), detalles);
-            Toast.makeText(getContext(), "PEDIDO: " + detalles.size(), Toast.LENGTH_LONG).show();
             lvDetallePedido.setAdapter(adapter);
             tvNumeroPedido.setText("PEDIDO #00" + pedido.getIdPedido());
             PedidoDAO pDAO = new PedidoDAO(getContext());
@@ -66,12 +65,23 @@ public class VerEstadoPedido extends Fragment {
                     if(!p.getEstado().equals("Solicitado")){
                         pedido.setEstado(p.getEstado());
                     }
-                    if(pedido.getEstado().equals("Entregado") && p.getCalificacion().equals("")){
+                    if(!pedido.getEstado().equals("Entregado")){
+                        btnGenerarQR.setText("Generar QR");
+                        btnGenerarQR.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                generarQR();
+                            }
+                        });
 
-
-                        // LOGICA PARA OBTENER FEEDBACK
-
-
+                    }else if(pedido.getEstado().equals("Entregado") && p.getCalificacion().equals("")){
+                        btnGenerarQR.setText("Enviar feedback");
+                        btnGenerarQR.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                enviarFeedback();
+                            }
+                        });
                     }
                     switch(pedido.getEstado()){
                         case "Solicitado":
@@ -114,21 +124,31 @@ public class VerEstadoPedido extends Fragment {
                     Toast.makeText(getContext(), "Error al obtener el estado: " + error, Toast.LENGTH_LONG).show();
                 }
             });
-            btnGenerarQR.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    GenerarQrPedido fragment = new GenerarQrPedido();
-                    Bundle b = new Bundle();
-                    b.putInt("ID_PEDIDO", pedido.getIdPedido());
-                    fragment.setArguments(b);
-
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.frame1, fragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                }
-            });
         }
+    }
+
+    private void generarQR(){
+        GenerarQrPedido fragment = new GenerarQrPedido();
+        Bundle b = new Bundle();
+        b.putInt("ID_PEDIDO", pedido.getIdPedido());
+        fragment.setArguments(b);
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame1, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void enviarFeedback(){
+        EnviarFeedback fragment = new EnviarFeedback();
+        Bundle b = new Bundle();
+        b.putInt("ID_PEDIDO", pedido.getIdPedido());
+        fragment.setArguments(b);
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame1, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private void enlazarControles(View view){
