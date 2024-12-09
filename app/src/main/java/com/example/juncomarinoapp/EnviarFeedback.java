@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.juncomarinoapp.interfaces.ConstantesApp;
@@ -22,6 +23,7 @@ import com.squareup.picasso.Picasso;
 
 public class EnviarFeedback extends Fragment {
 
+    private TextView tvIDPedido;
     private EditText etComentario;
     private RatingBar ratingBar;
     private Button btnEnviarFeedback;
@@ -44,6 +46,7 @@ public class EnviarFeedback extends Fragment {
         enlazarControles(view);
         if (getArguments() != null) {
             idPedido = getArguments().getInt("ID_PEDIDO");
+            tvIDPedido.setText("CALIFICANDO EL PEDIDO #00" + idPedido);
             btnEnviarFeedback.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -77,6 +80,7 @@ public class EnviarFeedback extends Fragment {
     }
 
     private void enlazarControles(View view){
+        tvIDPedido = view.findViewById(R.id.tvIDPedido);
         etComentario = view.findViewById(R.id.etComentario);
         ratingBar = view.findViewById(R.id.ratingBar);
         btnEnviarFeedback = view.findViewById(R.id.btnEnviarFeedback);
