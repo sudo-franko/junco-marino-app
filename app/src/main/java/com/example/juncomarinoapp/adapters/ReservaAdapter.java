@@ -57,7 +57,7 @@ public class ReservaAdapter extends BaseAdapter {
         TextView infoView = convertView.findViewById(R.id.tvInfoReserva);
         TextView estadoView = convertView.findViewById(R.id.tvEstadoReserva);
 
-        idView.setText("PEDIDO (ID: " + item.getIdReserva() + ")");
+        idView.setText("RESERVA (ID: " + item.getIdReserva() + ")");
         nombreView.setText("Usuario: " + item.getNomCliente());
         infoView.setText("MESA N° "+item.getNumMesa() + "  [" + item.getFecha() + "]");
         estadoView.setText("ESTADO: " +item.getEstado());
